@@ -8,10 +8,6 @@ version = "1.0-SNAPSHOT"
 
 description = "Github Actions Java CMD"
 
-tasks.withType(Wrapper::class) {
-    gradleVersion = "6.1.1"
-}
-
 graal {
     mainClass("io.github.itishniki.javacmd.SearchForMe")
     outputName("search-for-me")
