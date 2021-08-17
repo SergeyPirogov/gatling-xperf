@@ -1,0 +1,31 @@
+name: Release
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, macos-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+      - name: set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: "Build"
+        run: ./gradlew build -x test
+      - name: "Build Native Image"
+        run: ./gradlew nativeImage -x test
+      - name: "Upload Native Image"
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./build/graal/perf_report
+          asset_name: perf-report-${{ matrix.os }}
+          asset_content_type: application/octet-stream
