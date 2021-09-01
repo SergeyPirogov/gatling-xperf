@@ -11,6 +11,13 @@ description = "Github Actions Java CMD"
 graal {
     mainClass("io.github.itishniki.javacmd.SearchForMe")
     outputName("search-for-me")
+
+    option("-H:EnableURLProtocols=http,https")
+    option("-H:+AddAllCharsets")
+
+    option("--enable-all-security-services")
+    option("--allow-incomplete-classpath")
+    option("--no-fallback")
 }
 
 repositories {
