@@ -4,6 +4,8 @@ import io.reqover.MainCommand;
 import org.junit.jupiter.api.Test;
 import picocli.CommandLine;
 
+import static io.reqover.ReqoverCli.cmd;
+
 public class TestCli {
 
     @Test
@@ -19,5 +21,12 @@ public class TestCli {
 //        assert  tar.create;
 //        assert  tar.archive.equals(new File("result.tar"));
 //        assert  Arrays.equals(tar.files, new File[] {new File("file1.txt"), new File("file2.txt")});
+    }
+
+    @Test
+    public void testCliError(){
+        String[] args = {"upload"};
+        cmd(args);
+
     }
 }
