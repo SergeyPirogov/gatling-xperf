@@ -1,8 +1,8 @@
-package io.github.itishniki.javacmd;
+package io.reqover;
 
 import picocli.CommandLine;
 
-public class SearchForMe {
+public class ReqoverCli {
 
     public static void main(String[] args) {
         final CommandLine cmd = new CommandLine(new MainCommand());

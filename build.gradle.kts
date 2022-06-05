@@ -1,6 +1,7 @@
+
 plugins {
     java
-    id("com.palantir.graal") version "0.9.0"
+    id("com.palantir.graal") version "0.10.0"
 }
 
 group = "io.githib.itishniki"
@@ -18,6 +19,7 @@ graal {
     option("--enable-all-security-services")
     option("--allow-incomplete-classpath")
     option("--no-fallback")
+    javaVersion("11")
 }
 
 repositories {
@@ -27,6 +29,15 @@ repositories {
 dependencies {
     annotationProcessor("info.picocli:picocli-codegen:4.1.4")
 
-    implementation("org.seleniumhq.selenium:selenium-java:3.141.59")
     implementation("info.picocli:picocli:4.1.4")
+    implementation("com.googlecode.json-simple:json-simple:1.1.1")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+}
+
+tasks {
+    test {
+        useJUnitPlatform()
+    }
 }

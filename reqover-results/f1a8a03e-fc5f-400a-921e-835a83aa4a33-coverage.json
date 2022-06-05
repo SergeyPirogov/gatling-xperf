@@ -1,0 +1,1 @@
+{"method":"GET","statusCode":"200","parameters":[{"name":"status","value":"sold"}],"path":"/v2/pet/findByStatus"}
