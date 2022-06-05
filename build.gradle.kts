@@ -10,8 +10,8 @@ version = "1.0-SNAPSHOT"
 description = "Github Actions Java CMD"
 
 graal {
-    mainClass("io.github.itishniki.javacmd.SearchForMe")
-    outputName("search-for-me")
+    mainClass("io.reqover.ReqoverCli")
+    outputName("reqover")
 
     option("-H:EnableURLProtocols=http,https")
     option("-H:+AddAllCharsets")
