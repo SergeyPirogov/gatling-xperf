@@ -25,10 +25,10 @@ public class UploadCommand implements Runnable {
             defaultValue = "reqover-results")
     private File directory;
 
-    @CommandLine.Option(names = {"-s", "--server"}, paramLabel = "URL", description = "server url")
+    @CommandLine.Option(names = {"-s", "--server"}, paramLabel = "URL", description = "server url", required = true)
     private String serverUrl;
 
-    @CommandLine.Option(names = {"-t", "--token"}, paramLabel = "TOKEN", description = "build token")
+    @CommandLine.Option(names = {"-t", "--token"}, paramLabel = "TOKEN", description = "build token", required = true)
     private String token;
 
     @Override
