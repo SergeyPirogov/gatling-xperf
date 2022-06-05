@@ -1,11 +1,8 @@
 package io.reqover.commands;
 
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import picocli.CommandLine;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -37,16 +34,16 @@ public class UploadCommand implements Runnable {
     @Override
     public void run() {
         listFiles(directory).forEach(it -> {
+            System.out.println(it.getName());
             String file = readFile(it);
             post(String.format("%s/%s/results", serverUrl, token), file);
         });
     }
 
 
-    public Set<String> listFiles(File dir) {
+    public Set<File> listFiles(File dir) {
         return Stream.of(Objects.requireNonNull(dir.listFiles()))
                 .filter(file -> !file.isDirectory() && file.getName().endsWith(".json"))
-                .map(File::getAbsolutePath)
                 .collect(Collectors.toSet());
     }
 
@@ -66,8 +63,8 @@ public class UploadCommand implements Runnable {
         }
     }
 
-    private String readFile(String name) {
-        Path filePath = Path.of(name);
+    private String readFile(File file) {
+        Path filePath = Path.of(file.getAbsolutePath());
 
         try {
             return Files.readString(filePath);
