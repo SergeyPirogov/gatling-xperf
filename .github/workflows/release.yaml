@@ -23,6 +23,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./build/graal/search-for-me
+          asset_path: ./build/graal/reqover
           asset_name: reqover-cli
           asset_content_type: application/octet-stream
