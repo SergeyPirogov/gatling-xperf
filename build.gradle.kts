@@ -4,7 +4,7 @@ plugins {
     id("com.palantir.graal") version "0.10.0"
 }
 
-group = "io.githib.itishniki"
+group = "io.reqover"
 version = "1.0-SNAPSHOT"
 
 description = "Github Actions Java CMD"
