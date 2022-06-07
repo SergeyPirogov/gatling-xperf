@@ -17,9 +17,9 @@ jobs:
         with:
           java-version: 11
       - name: "Build"
-        run: ./gradlew build
+        run: ./gradlew build -x test
       - name: "Build Native Image"
-        run: ./gradlew nativeImage
+        run: ./gradlew nativeImage -x test
       - name: "Upload Native Image"
         uses: actions/upload-release-asset@v1.0.1
         env:
