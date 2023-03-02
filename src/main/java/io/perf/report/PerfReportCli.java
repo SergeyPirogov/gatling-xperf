@@ -1,8 +1,8 @@
-package io.reqover;
+package io.perf.report;
 
 import picocli.CommandLine;
 
-public class ReqoverCli {
+public class PerfReportCli {
 
     public static void main(String[] args) {
         CommandLine cmd = cmd(args);
