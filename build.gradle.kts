@@ -10,7 +10,7 @@ version = "1.0-SNAPSHOT"
 description = "Github Actions Java CMD"
 
 graal {
-    mainClass("io.reqover.ReqoverCli")
+    mainClass("io.perf.report.PerfReportCli")
     outputName("perf_report")
 
     option("-H:EnableURLProtocols=http,https")
