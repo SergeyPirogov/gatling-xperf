@@ -10,10 +10,10 @@ public class TestCli {
 
     @Test
     public void testCli(){
-        String[] args = { "analyze" , "-f", "simulation.log"};
+        String[] args = { "analyze" , "-f", "simulation.log", "-o", "./report"};
 
         final CommandLine cmd = new CommandLine(new MainCommand());
-        final CommandLine.ParseResult parseResult = cmd.parseArgs(args);
+        cmd.parseArgs(args);
         int exitCode = cmd.execute(args);
 
 //        assertThat()

@@ -22,6 +22,9 @@ public class AnalyzeCommand implements Runnable {
     @CommandLine.Option(names = {"-f", "--files"}, paramLabel = "FILES", description = "the files")
     private List<File> files;
 
+    @CommandLine.Option(names = {"-o", "--output-dir"}, paramLabel = "DIR", description = "output dir")
+    private String dirName;
+
     @Override
     public void run() {
         files.forEach(it -> {
