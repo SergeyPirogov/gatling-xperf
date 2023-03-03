@@ -1,15 +1,9 @@
 package io.perf.report.model;
 
 import io.perf.report.util.Utils;
-import org.apache.commons.math3.stat.StatUtils;
-import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimulationRequest {
@@ -48,15 +42,11 @@ public class SimulationRequest {
         indice = statCounter.incrementAndGet();
     }
 
-    public static List<String> header() {
-        return List.of(("simulation,scenario,maxUsers,request,start,startDate,duration,end,count,successCount," +
-                "errorCount,min,p50,p90,p95,p99,max,avg,stddev,rps,apdex,rating")
-                .split(","));
-    }
-
-    public long getCount() {
-        return count;
-    }
+//    public static List<String> header() {
+//        return List.of(("simulation,scenario,maxUsers,request,start,startDate,duration,end,count,successCount," +
+//                "errorCount,min,p50,p90,p95,p99,max,avg,stddev,rps,apdex,rating")
+//                .split(","));
+//    }
 
     public void add(long start, long end, boolean success) {
         count += 1;
@@ -105,31 +95,31 @@ public class SimulationRequest {
 //        return String.format(Locale.ENGLISH, "%.1f", avg);
 //    }
 
-    public String boxpoints() {
-        if (count < MAX_BOXPOINT) {
-            return "'all'";
-        }
-        return "false";
-    }
+//    public String boxpoints() {
+//        if (count < MAX_BOXPOINT) {
+//            return "'all'";
+//        }
+//        return "false";
+//    }
 
 //    public String throughput() {
 //        return String.format(Locale.ENGLISH, "%.1f", rps);
 //    }
 
-    public String percentError() {
-        if (count == 0) {
-            return "0.00";
-        }
-        return String.format(Locale.ENGLISH, "%.2f", (errorCount * 100.0) / count);
-    }
+//    public String percentError() {
+//        if (count == 0) {
+//            return "0.00";
+//        }
+//        return String.format(Locale.ENGLISH, "%.2f", (errorCount * 100.0) / count);
+//    }
 
-    protected String getDateFromInstant(long start) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd " + "HH:mm:ss")
-                .withZone(ZoneId.systemDefault());
-        return formatter.format(Instant.ofEpochMilli(start));
-    }
+//    protected String getDateFromInstant(long start) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd " + "HH:mm:ss")
+//                .withZone(ZoneId.systemDefault());
+//        return formatter.format(Instant.ofEpochMilli(start));
+//    }
 
-    protected double[] getDurationAsArray() {
+    public double[] getDurationsAsArray() {
         double[] ret = new double[durations.size()];
         for (int i = 0; i < durations.size(); i++) {
             ret[i] = durations.get(i);
@@ -169,9 +159,9 @@ public class SimulationRequest {
 //        return duration;
 //    }
 //
-//    public String getScenario() {
-//        return scenario;
-//    }
+    public String getScenario() {
+        return scenario;
+    }
 //
 //    public void setScenario(String name) {
 //        scenario = name;
@@ -185,25 +175,25 @@ public class SimulationRequest {
 //        return successCount;
 //    }
 //
-//    public long getErrorCount() {
-//        return errorCount;
-//    }
+    public long getErrorCount() {
+        return errorCount;
+    }
 //
 //    public String getRequest() {
 //        return request;
 //    }
 //
-//    public long getStart() {
-//        return start;
-//    }
+    public long getStart() {
+        return start;
+    }
 //
 //    public void setStart(long start) {
 //        this.start = start;
 //    }
 //
-//    public long getEnd() {
-//        return end;
-//    }
+    public long getEnd() {
+        return end;
+    }
 //
 //    public String getStartDate() {
 //        return startDate;
@@ -240,4 +230,12 @@ public class SimulationRequest {
 //    public double getRps() {
 //        return rps;
 //    }
+
+    public long getCount() {
+        return count;
+    }
+
+    public List<Double> getDurations() {
+        return durations;
+    }
 }

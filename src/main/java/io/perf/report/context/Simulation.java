@@ -52,6 +52,14 @@ public class Simulation {
         //simulationRequest.add(start, end, success);
     }
 
+    public int getMaxUsers() {
+        return users.values().stream().mapToInt(CountMax::getMax).sum();
+    }
+
+    public Map<String, CountMax> getUsers() {
+        return users;
+    }
+
     public void computeStat() {
         //maxUsers = users.values().stream().mapToInt(CountMax::getMax).sum();
         //simStat.computeStat(maxUsers);
@@ -100,7 +108,7 @@ public class Simulation {
 //        return simStat;
 //    }
 
-    static class CountMax {
+    public static class CountMax {
         int current = 0, maximum = 0;
 
         public void incr() {
@@ -113,6 +121,10 @@ public class Simulation {
         }
 
         public int getMax() {
+            return maximum;
+        }
+
+        public int getMaximum() {
             return maximum;
         }
     }
