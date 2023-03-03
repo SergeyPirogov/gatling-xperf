@@ -24,20 +24,12 @@ public abstract class SimulationParser {
 
     protected final File file;
 
-    protected final Float apdexT;
-
-    public SimulationParser(File file, Float apdexT) {
-        this.file = file;
-        this.apdexT = apdexT;
-    }
-
     public SimulationParser(File file) {
         this.file = file;
-        this.apdexT = null;
     }
 
     public Simulation parse() throws IOException {
-        Simulation simulation = new Simulation(file.getAbsolutePath(), apdexT);
+        Simulation simulation = new Simulation(file.getAbsolutePath());
         try (SimulationReader reader = new SimulationReader(file)) {
             List<String> line;
             String name;
@@ -77,7 +69,7 @@ public abstract class SimulationParser {
                 }
             }
         }
-        simulation.computeStat();
+        //simulation.computeStat();
         return simulation;
     }
 

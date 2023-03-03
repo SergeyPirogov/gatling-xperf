@@ -1,7 +1,7 @@
 package io.perf.report.reports;
 
 import io.perf.report.context.Simulation;
-import io.perf.report.model.RequestStat;
+import io.perf.report.model.SimulationRequest;
 import net.quux00.simplecsv.CsvWriter;
 import net.quux00.simplecsv.CsvWriterBuilder;
 
@@ -23,12 +23,12 @@ public class CsvReport extends Report {
 
     public static void saveReport(List<Simulation> stats) {
         List<List<String>> data = new ArrayList<>();
-        List<String> header = RequestStat.header();
+        List<String> header = SimulationRequest.header();
         data.add(header);
 
         stats.forEach(it -> {
-            data.add(it.getSimulationStats().getResults());
-            it.getRequestStats().forEach(requestStat -> data.add(requestStat.getResults()));
+            //data.add(it.getSimulationStats().getResults());
+            //it.getRequestStats().forEach(requestStat -> data.add(requestStat.getResults()));
         });
 
         writeData(data);

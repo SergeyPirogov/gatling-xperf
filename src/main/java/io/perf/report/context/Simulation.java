@@ -1,6 +1,6 @@
 package io.perf.report.context;
 
-import io.perf.report.model.RequestStat;
+import io.perf.report.model.SimulationRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,13 +12,9 @@ import static java.lang.Math.max;
 public class Simulation {
     public static final String ALL_REQUESTS = "_all";
 
-    protected final Float apdexT;
-
     protected final String filePath;
 
-    protected final RequestStat simStat;
-
-    protected final Map<String, RequestStat> reqStats = new HashMap<>();
+    protected final Map<String, SimulationRequest> requests = new HashMap<>();
 
     protected final Map<String, CountMax> users = new HashMap<>();
 
@@ -26,75 +22,67 @@ public class Simulation {
 
     protected String scenarioName;
 
-    protected List<String> scripts = new ArrayList<>();
-
-    protected int maxUsers;
+    //protected List<String> scripts = new ArrayList<>();
 
     protected long start;
 
-    public Simulation(String filePath, Float apdexT) {
+    public Simulation(String filePath) {
         this.filePath = filePath;
-        this.simStat = new RequestStat(ALL_REQUESTS, ALL_REQUESTS, ALL_REQUESTS, 0, apdexT);
-        this.apdexT = apdexT;
-    }
-
-    public String getSimulationName() {
-        return simulationName;
+        requests.put(ALL_REQUESTS, new SimulationRequest(ALL_REQUESTS, ALL_REQUESTS, ALL_REQUESTS, 0));
     }
 
     public void setSimulationName(String name) {
         this.simulationName = name;
-        simStat.setSimulationName(name);
     }
 
-    public RequestStat getSimStat() {
-        return simStat;
+    public List<SimulationRequest> getRequests() {
+        return new ArrayList<>(requests.values());
     }
 
-    public List<RequestStat> getRequests() {
-        List<RequestStat> ret = new ArrayList<>(reqStats.values());
-        ret.sort((a, b) -> (int) (1000 * (a.getAvg() - b.getAvg())));
-        return ret;
-    }
+    //    public List<SimulationRequest> getRequests() {
+//        List<SimulationRequest> ret = new ArrayList<>(requests.values());
+//        ret.sort((a, b) -> (int) (1000 * (a.getAvg() - b.getAvg())));
+//        return ret;
+//    }
 
     public void addRequest(String scenario, String requestName, long start, long end, boolean success) {
-        RequestStat request = reqStats.computeIfAbsent(requestName,
-                n -> new RequestStat(simulationName, scenario, n, this.start, apdexT));
+        SimulationRequest request = requests.computeIfAbsent(requestName,
+                name -> new SimulationRequest(simulationName, scenario, name, this.start));
         request.add(start, end, success);
-        simStat.add(start, end, success);
+        //simulationRequest.add(start, end, success);
     }
 
     public void computeStat() {
-        maxUsers = users.values().stream().mapToInt(CountMax::getMax).sum();
-        simStat.computeStat(maxUsers);
-        reqStats.values()
-                .forEach(request -> request.computeStat(simStat.duration(), users.get(request.getScenario()).maximum));
+        //maxUsers = users.values().stream().mapToInt(CountMax::getMax).sum();
+        //simStat.computeStat(maxUsers);
+        //reqStats.values()
+        //        .forEach(request -> request.computeStat(simStat.duration(), users.get(request.getScenario()).maximum));
     }
 
     public void setScenarioName(String name) {
         this.scenarioName = name;
-        simStat.setScenario(name);
+        //simStat.setScenario(name);
     }
 
     public void setStart(long start) {
         this.start = start;
-        simStat.setStart(start);
+        //simStat.setStart(start);
     }
 
-    public Simulation setScripts(List<String> scripts) {
-        this.scripts = scripts;
-        return this;
-    }
+//    public Simulation setScripts(List<String> scripts) {
+//        this.scripts = scripts;
+//        return this;
+//    }
 
-    public List<RequestStat> getRequestStats() {
-        return getRequests();
-    }
+//    public List<SimulationRequest> getRequestStats() {
+//        return getRequests();
+//    }
 
 
-    public Simulation setMaxUsers(int maxUsers) {
-        this.maxUsers = maxUsers;
-        return this;
-    }
+//    public Simulation setMaxUsers(int maxUsers) {
+//        this.maxUsers = maxUsers;
+//        return this;
+//    }
 
     public void addUser(String scenario) {
         CountMax count = users.computeIfAbsent(scenario, k -> new CountMax());
@@ -108,11 +96,11 @@ public class Simulation {
         }
     }
 
-    public RequestStat getSimulationStats() {
-        return simStat;
-    }
+//    public RequestStat getSimulationStats() {
+//        return simStat;
+//    }
 
-    class CountMax {
+    static class CountMax {
         int current = 0, maximum = 0;
 
         public void incr() {

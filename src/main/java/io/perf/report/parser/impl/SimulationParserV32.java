@@ -15,10 +15,6 @@ public class SimulationParserV32 extends SimulationParser {
 
     final protected Map<String, String> userScenario = new HashMap<>();
 
-    public SimulationParserV32(File file, Float apdexT) {
-        super(file, apdexT);
-    }
-
     public SimulationParserV32(File file) {
         super(file);
     }

@@ -15,11 +15,6 @@ public class SimulationParserV3 extends SimulationParser {
 
     protected final Map<String, String> userIdToScenarioMap;
 
-    public SimulationParserV3(File file, Float apdexT) {
-        super(file, apdexT);
-        this.userIdToScenarioMap = new HashMap();
-    }
-
     public SimulationParserV3(File file) {
         super(file);
         this.userIdToScenarioMap = new HashMap();
