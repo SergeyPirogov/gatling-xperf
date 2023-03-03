@@ -1,11 +1,12 @@
 
 plugins {
     java
+    application
     id("com.palantir.graal") version "0.10.0"
 }
 
-group = "io.reqover"
-version = "1.0-SNAPSHOT"
+group = "io.perf.report"
+version = "1.0"
 
 description = "Github Actions Java CMD"
 
@@ -43,4 +44,8 @@ tasks {
     test {
         useJUnitPlatform()
     }
+}
+
+application {
+    mainClass.set("io.perf.report.PerfReportCli")
 }
