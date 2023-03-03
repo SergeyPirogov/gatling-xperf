@@ -1,6 +1,7 @@
 package io.perf.report.analyze;
 
 import io.perf.report.context.Simulation;
+import io.perf.report.model.AnalyticsResult;
 import io.perf.report.model.SimulationRequest;
 import org.apache.commons.math3.stat.StatUtils;
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
@@ -17,9 +18,12 @@ public class StatsAnalyzer {
         List<SimulationRequest> requests = simulation.getRequests();
         System.out.println();
         Map<String, Simulation.CountMax> users = simulation.getUsers();
+
+        AnalyticsResult analyticsResult = new AnalyticsResult();
+
         requests.forEach(req -> {
-            System.out.println();
             computeRequestStats(req, users.get(req.getScenario()).getMaximum());
+//            analyticsResult.setResult();
         });
     }
 
