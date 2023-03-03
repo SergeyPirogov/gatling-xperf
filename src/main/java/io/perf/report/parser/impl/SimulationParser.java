@@ -1,7 +1,7 @@
 package io.perf.report.parser.impl;
 
 
-import io.perf.report.context.SimulationContext;
+import io.perf.report.context.Simulation;
 import io.perf.report.reader.SimulationReader;
 
 import java.io.File;
@@ -36,8 +36,8 @@ public abstract class SimulationParser {
         this.apdexT = null;
     }
 
-    public SimulationContext parse() throws IOException {
-        SimulationContext ret = new SimulationContext(file.getAbsolutePath(), apdexT);
+    public Simulation parse() throws IOException {
+        Simulation simulation = new Simulation(file.getAbsolutePath(), apdexT);
         try (SimulationReader reader = new SimulationReader(file)) {
             List<String> line;
             String name;
@@ -47,9 +47,9 @@ public abstract class SimulationParser {
             List<String> header = reader.readNext();
             checkLine(header);
 
-            ret.setSimulationName(getSimulationName(header));
-            ret.setScenarioName(getScenario(header));
-            ret.setStart(Long.parseLong(getSimulationStart(header)));
+            simulation.setSimulationName(getSimulationName(header));
+            simulation.setScenarioName(getScenario(header));
+            simulation.setStart(Long.parseLong(getSimulationStart(header)));
 
             while ((line = reader.readNext()) != null) {
                 scenario = getScenario(line);
@@ -62,23 +62,23 @@ public abstract class SimulationParser {
                         start = getRequestStart(line);
                         end = getRequestEnd(line);
                         success = getRequestSuccess(line);
-                        ret.addRequest(scenario, name, start, end, success);
+                        simulation.addRequest(scenario, name, start, end, success);
                         break;
                     case USER:
                         switch (getUserType(line)) {
                             case START:
-                                ret.addUser(scenario);
+                                simulation.addUser(scenario);
                                 break;
                             case END:
-                                ret.endUser(scenario);
+                                simulation.endUser(scenario);
                                 break;
                         }
                         break;
                 }
             }
         }
-        ret.computeStat();
-        return ret;
+        simulation.computeStat();
+        return simulation;
     }
 
     protected void checkLine(List<String> line) {
@@ -105,7 +105,7 @@ public abstract class SimulationParser {
 
     protected abstract boolean getRequestSuccess(List<String> line);
 
-    protected SimulationContext invalidFile() {
+    protected Simulation invalidFile() {
         throw new IllegalArgumentException(String.format(
                 "Invalid simulation file: %s expecting " + "Gatling 2.1, 2.3.1 or 3.x format", file.getAbsolutePath()));
     }

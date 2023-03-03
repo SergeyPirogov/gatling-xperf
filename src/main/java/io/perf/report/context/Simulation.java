@@ -9,7 +9,7 @@ import java.util.Map;
 
 import static java.lang.Math.max;
 
-public class SimulationContext {
+public class Simulation {
     public static final String ALL_REQUESTS = "_all";
 
     protected final Float apdexT;
@@ -32,7 +32,7 @@ public class SimulationContext {
 
     protected long start;
 
-    public SimulationContext(String filePath, Float apdexT) {
+    public Simulation(String filePath, Float apdexT) {
         this.filePath = filePath;
         this.simStat = new RequestStat(ALL_REQUESTS, ALL_REQUESTS, ALL_REQUESTS, 0, apdexT);
         this.apdexT = apdexT;
@@ -81,23 +81,17 @@ public class SimulationContext {
         simStat.setStart(start);
     }
 
-    public SimulationContext setScripts(List<String> scripts) {
+    public Simulation setScripts(List<String> scripts) {
         this.scripts = scripts;
         return this;
     }
-
-//    @Override
-//    public String toString() {
-//        return simStat.toString() + "\n"
-//                + getRequests().stream().map(RequestStat::toString).collect(Collectors.joining("\n"));
-//    }
 
     public List<RequestStat> getRequestStats() {
         return getRequests();
     }
 
 
-    public SimulationContext setMaxUsers(int maxUsers) {
+    public Simulation setMaxUsers(int maxUsers) {
         this.maxUsers = maxUsers;
         return this;
     }

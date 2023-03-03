@@ -1,6 +1,6 @@
 package io.perf.report.reports;
 
-import io.perf.report.context.SimulationContext;
+import io.perf.report.context.Simulation;
 import io.perf.report.model.RequestStat;
 import net.quux00.simplecsv.CsvWriter;
 import net.quux00.simplecsv.CsvWriterBuilder;
@@ -21,7 +21,7 @@ public class CsvReport extends Report {
                 .build();
     }
 
-    public static void saveReport(List<SimulationContext> stats) {
+    public static void saveReport(List<Simulation> stats) {
         List<List<String>> data = new ArrayList<>();
         List<String> header = RequestStat.header();
         data.add(header);

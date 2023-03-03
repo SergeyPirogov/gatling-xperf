@@ -1,6 +1,6 @@
 package io.perf.report.commands;
 
-import io.perf.report.context.SimulationContext;
+import io.perf.report.context.Simulation;
 import io.perf.report.parser.ParserFactory;
 import io.perf.report.parser.impl.SimulationParser;
 import io.perf.report.reports.CsvReport;
@@ -29,27 +29,27 @@ public class AnalyzeCommand implements Runnable {
     public void run() {
         files.forEach(it -> {
             System.out.println(it.getName());
-            List<SimulationContext> stats = parseSimulationFile(it);
-            generateCsvReport(stats);
+            List<Simulation> simulations = parseSimulationFile(it);
+            generateCsvReport(simulations);
         });
     }
 
-    protected List<SimulationContext> parseSimulationFile(File file) {
+    protected List<Simulation> parseSimulationFile(File file) {
         final long startTime = System.currentTimeMillis();
         log.info("Parsing " + file.getAbsolutePath());
-        List<SimulationContext> stats = new ArrayList<>();
+        List<Simulation> simulations = new ArrayList<>();
         try {
             SimulationParser parser = ParserFactory.getParser(file);
-            stats.add(parser.parse());
+            simulations.add(parser.parse());
             final long endTime = System.currentTimeMillis();
             log.info("Parsing finished in " + (endTime - startTime) + " ms. File " + file.getAbsolutePath());
         } catch (IOException e) {
             log.error("Invalid file: " + file.getAbsolutePath(), e);
         }
-        return stats;
+        return simulations;
     }
 
-    protected void generateCsvReport(List<SimulationContext> stats) {
+    protected void generateCsvReport(List<Simulation> stats) {
         CsvReport.saveReport(stats);
     }
 }
