@@ -2,6 +2,8 @@
 
 package io.perf.report.parser.impl;
 
+import io.perf.report.parser.SimulationParser;
+
 import java.io.File;
 import java.util.List;
 

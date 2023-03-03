@@ -2,7 +2,7 @@ package io.perf.report.commands;
 
 import io.perf.report.context.Simulation;
 import io.perf.report.parser.ParserFactory;
-import io.perf.report.parser.impl.SimulationParser;
+import io.perf.report.parser.SimulationParser;
 import io.perf.report.reports.CsvReport;
 import org.apache.log4j.Logger;
 import picocli.CommandLine;

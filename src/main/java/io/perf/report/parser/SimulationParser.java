@@ -1,4 +1,4 @@
-package io.perf.report.parser.impl;
+package io.perf.report.parser;
 
 
 import io.perf.report.context.Simulation;
