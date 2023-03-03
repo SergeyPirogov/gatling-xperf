@@ -7,7 +7,7 @@ import java.util.List;
 
 public class StatsAnalyzer {
 
-    public static void computeStats(Simulation simulation) {
+    public static void computeSimulationStats(Simulation simulation) {
         List<SimulationRequest> requests = simulation.getRequests();
         System.out.println();
         requests.forEach(req -> {

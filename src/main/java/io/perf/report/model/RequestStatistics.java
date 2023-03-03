@@ -1,6 +1,6 @@
 package io.perf.report.model;
 
-public class SimulationRequestStatistics {
+public class RequestStatistics {
 
     protected String startDate;
     protected long count, successCount, errorCount;

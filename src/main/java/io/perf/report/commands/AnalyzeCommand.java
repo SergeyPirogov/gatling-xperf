@@ -30,7 +30,7 @@ public class AnalyzeCommand implements Runnable {
         files.forEach(it -> {
             System.out.println(it.getName());
             Simulation simulation = parseSimulationFile(it);
-            StatsAnalyzer.computeStats(simulation);
+            StatsAnalyzer.computeSimulationStats(simulation);
 
             //generateCsvReport(simulations);
         });
