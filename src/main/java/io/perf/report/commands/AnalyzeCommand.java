@@ -21,20 +21,20 @@ public class AnalyzeCommand implements Runnable {
     private final static Logger log = Logger.getLogger(AnalyzeCommand.class);
 
     @CommandLine.Option(names = {"-f", "--files"}, paramLabel = "FILES", description = "the files")
-    private List<File> files;
+    private File file;
 
     @CommandLine.Option(names = {"-o", "--output-dir"}, paramLabel = "DIR", description = "output dir")
     private String dirName;
 
     @Override
     public void run() {
-        files.forEach(it -> {
-            System.out.println(it.getName());
-            Simulation simulation = parseSimulationFile(it);
+//        files.forEach(it -> {
+            System.out.println(file.getName());
+            Simulation simulation = parseSimulationFile(file);
             SimulationStats analyticsResult = StatsAnalyzer.computeSimulationStats(simulation);
 
-            generateCsvReport(analyticsResult);
-        });
+            generateCsvReport(analyticsResult, file.getName());
+        //});
     }
 
     protected Simulation parseSimulationFile(File file) {
@@ -53,7 +53,7 @@ public class AnalyzeCommand implements Runnable {
         }
     }
 
-    protected void generateCsvReport(SimulationStats stats) {
-        CsvReport.saveReport(stats);
+    protected void generateCsvReport(SimulationStats stats, String name) {
+        CsvReport.of(name).saveReport(stats);
     }
 }

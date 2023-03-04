@@ -7,55 +7,29 @@ import net.quux00.simplecsv.CsvWriterBuilder;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class CsvReport extends Report {
-    private final static CsvWriter csvWriter = init();
+    private final CsvWriter csvWriter;
 
-    public static List<String> getHeader() {
-        return List.of(("simulation,scenario,maxUsers,request,start,startDate,duration,end,total,ok," +
-                "ko,rps,min,p50,p75,p95,p99,max,mean,stddev")
-                .split(","));
-    }
-
-    private static CsvWriter init() {
-        FileWriter writer = getWriter();
-        return new CsvWriterBuilder(writer)
+    private CsvReport(String name) {
+        FileWriter writer = getWriter(buildName(name));
+        this.csvWriter = new CsvWriterBuilder(writer)
                 .quoteChar(CsvWriter.NO_QUOTE_CHARACTER)
                 .separator(',')
                 .build();
     }
 
-    public static void saveReport(SimulationStats stats) {
-        List<List<String>> data = new ArrayList<>();
-        List<String> header = getHeader();
-        data.add(header);
-
-        stats.getResults().forEach(it -> {
-            data.add(List.of(CsvReport.requestStatsToString(it)));
-        });
-
-        writeData(data);
+    public static CsvReport of(String name) {
+        return new CsvReport(name);
     }
 
-    private static void writeData(List<List<String>> data) {
+    private static FileWriter getWriter(String name) {
         try {
-            csvWriter.writeAll(data);
-        } finally {
-            try {
-                csvWriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private static FileWriter getWriter() {
-        try {
-            return new FileWriter("perf_report.csv");
+            return new FileWriter(name);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -91,5 +65,41 @@ public class CsvReport extends Report {
 //        return String.format(Locale.ENGLISH,
 //                "%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.2f,%s,%.2f",
 //                );
+    }
+
+    private String buildName(String fileName) {
+        String name = fileName.replace(".log", "");
+        Timestamp ts = Timestamp.from(Instant.now());
+        return ts.getTime() + "_" + name + ".csv";
+    }
+
+    public List<String> getHeader() {
+        return List.of(("simulation,scenario,maxUsers,request,start,startDate,duration,end,total,ok," +
+                "ko,rps,min,p50,p75,p95,p99,max,mean,stddev")
+                .split(","));
+    }
+
+    public void saveReport(SimulationStats stats) {
+        List<List<String>> data = new ArrayList<>();
+        List<String> header = getHeader();
+        data.add(header);
+
+        stats.getResults().forEach(it -> {
+            data.add(List.of(CsvReport.requestStatsToString(it)));
+        });
+
+        writeData(data);
+    }
+
+    private void writeData(List<List<String>> data) {
+        try {
+            csvWriter.writeAll(data);
+        } finally {
+            try {
+                csvWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
