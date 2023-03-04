@@ -17,7 +17,7 @@ public class CsvReport extends Report {
 
     public static List<String> getHeader() {
         return List.of(("simulation,scenario,maxUsers,request,start,startDate,duration,end,count,successCount," +
-                "errorCount,min,p50,p90,p95,p99,max,avg,stddev,rps")
+                "errorCount,min,p50,p75,p95,p99,max,mean,stddev,rps")
                 .split(","));
     }
 

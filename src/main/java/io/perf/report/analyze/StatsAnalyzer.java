@@ -49,10 +49,10 @@ public class StatsAnalyzer {
 
         double avg = sum / times.length;
 
-        long p50 = (long) StatUtils.percentile(times, 50.0);
-        long p90 = (long) StatUtils.percentile(times, 90.0);
-        long p95 = (long) StatUtils.percentile(times, 95.0);
-        long p99 = (long) StatUtils.percentile(times, 99.0);
+        long p50 = Math.round(AnalyzerMath.percentile(times, 0.50));
+        long p75 = Math.round(AnalyzerMath.percentile(times, 0.75));
+        long p95 = Math.round(AnalyzerMath.percentile(times, 0.95));
+        long p99 = Math.round(AnalyzerMath.percentile(times, 0.99));
 
         StandardDeviation stdDev = new StandardDeviation();
         long stddev = (long) stdDev.evaluate(times, avg);
@@ -61,13 +61,13 @@ public class StatsAnalyzer {
         String startDate = getDateFromInstant(request.getStart());
         long successCount = request.getCount() - request.getErrorCount();
         double rps = successCount / duration;
-        
+
         RequestStats requestStatistics =  new RequestStats();
         requestStatistics.setMin(min);
         requestStatistics.setMax(max);
         requestStatistics.setAvg(avg);
         requestStatistics.setP50(p50);
-        requestStatistics.setP90(p90);
+        requestStatistics.setP90(p75);
         requestStatistics.setP95(p95);
         requestStatistics.setP99(p99);
         requestStatistics.setStddev(stddev);

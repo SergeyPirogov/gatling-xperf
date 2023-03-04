@@ -3,6 +3,7 @@ package io.perf.report.model;
 import io.perf.report.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -20,9 +21,6 @@ public class SimulationRequest {
     protected long end;
     protected long count;
     protected long errorCount;
-
-
-
 
     //protected String startDate;
 
@@ -124,6 +122,7 @@ public class SimulationRequest {
         for (int i = 0; i < durations.size(); i++) {
             ret[i] = durations.get(i);
         }
+        Arrays.sort(ret);
         return ret;
     }
 
