@@ -57,10 +57,11 @@ public class StatsAnalyzer {
         StandardDeviation stdDev = new StandardDeviation();
         long stddev = (long) stdDev.evaluate(times, avg);
         double duration = (request.getEnd() - request.getStart()) / 1000.0;
-        double rps = (request.getCount() - request.getErrorCount()) / duration;
+
         String startDate = getDateFromInstant(request.getStart());
         long successCount = request.getCount() - request.getErrorCount();
-
+        double rps = successCount / duration;
+        
         RequestStats requestStatistics =  new RequestStats();
         requestStatistics.setMin(min);
         requestStatistics.setMax(max);
