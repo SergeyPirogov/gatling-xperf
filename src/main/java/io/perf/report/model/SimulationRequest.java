@@ -147,9 +147,9 @@ public class SimulationRequest {
 //                errorCount, min, p50, p90, p95, p99, max, avg, stddev, rps);
 //    }
 //
-//    public String getSimulation() {
-//        return simulation;
-//    }
+    public String getSimulation() {
+        return simulation;
+    }
 //
 //    public double getAvg() {
 //        return avg;
@@ -179,9 +179,9 @@ public class SimulationRequest {
         return errorCount;
     }
 //
-//    public String getRequest() {
-//        return request;
-//    }
+    public String getRequest() {
+        return request;
+    }
 //
     public long getStart() {
         return start;
@@ -238,4 +238,10 @@ public class SimulationRequest {
     public List<Double> getDurations() {
         return durations;
     }
+
+    public int getIndice() {
+        return indice;
+    }
+
+
 }

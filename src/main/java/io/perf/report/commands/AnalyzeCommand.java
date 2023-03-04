@@ -2,6 +2,7 @@ package io.perf.report.commands;
 
 import io.perf.report.analyze.StatsAnalyzer;
 import io.perf.report.context.Simulation;
+import io.perf.report.model.SimulationStats;
 import io.perf.report.parser.ParserFactory;
 import io.perf.report.parser.SimulationParser;
 import io.perf.report.reports.CsvReport;
@@ -30,9 +31,9 @@ public class AnalyzeCommand implements Runnable {
         files.forEach(it -> {
             System.out.println(it.getName());
             Simulation simulation = parseSimulationFile(it);
-            StatsAnalyzer.computeSimulationStats(simulation);
+            SimulationStats analyticsResult = StatsAnalyzer.computeSimulationStats(simulation);
 
-            //generateCsvReport(simulations);
+            generateCsvReport(analyticsResult);
         });
     }
 
@@ -52,7 +53,7 @@ public class AnalyzeCommand implements Runnable {
         }
     }
 
-    protected void generateCsvReport(List<Simulation> stats) {
+    protected void generateCsvReport(SimulationStats stats) {
         CsvReport.saveReport(stats);
     }
 }

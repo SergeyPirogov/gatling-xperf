@@ -28,7 +28,7 @@ public class Simulation {
 
     public Simulation(String filePath) {
         this.filePath = filePath;
-        requests.put(ALL_REQUESTS, new SimulationRequest(ALL_REQUESTS, ALL_REQUESTS, ALL_REQUESTS, 0));
+        //requests.put(ALL_REQUESTS, new SimulationRequest(ALL_REQUESTS, ALL_REQUESTS, ALL_REQUESTS, 0));
     }
 
     public void setSimulationName(String name) {
@@ -52,8 +52,13 @@ public class Simulation {
         //simulationRequest.add(start, end, success);
     }
 
-    public int getMaxUsers() {
-        return users.values().stream().mapToInt(CountMax::getMax).sum();
+    public int getMaxUsers(String scenarioName) {
+        CountMax countMax = users.get(scenarioName);
+        if (countMax == null) {
+            return users.values().stream().mapToInt(CountMax::getMax).sum();
+        } else {
+            return countMax.getMaximum();
+        }
     }
 
     public Map<String, CountMax> getUsers() {
@@ -109,7 +114,7 @@ public class Simulation {
 //    }
 
     public static class CountMax {
-        int current = 0, maximum = 0;
+        private int current = 0, maximum = 0;
 
         public void incr() {
             current += 1;

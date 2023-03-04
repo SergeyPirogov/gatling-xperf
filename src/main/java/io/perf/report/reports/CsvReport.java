@@ -1,7 +1,7 @@
 package io.perf.report.reports;
 
-import io.perf.report.context.Simulation;
-import io.perf.report.model.SimulationRequest;
+import io.perf.report.model.RequestStats;
+import io.perf.report.model.SimulationStats;
 import net.quux00.simplecsv.CsvWriter;
 import net.quux00.simplecsv.CsvWriterBuilder;
 
@@ -9,9 +9,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CsvReport extends Report {
     private final static CsvWriter csvWriter = init();
+
+    public static List<String> getHeader() {
+        return List.of(("simulation,scenario,maxUsers,request,start,startDate,duration,end,count,successCount," +
+                "errorCount,min,p50,p90,p95,p99,max,avg,stddev,rps")
+                .split(","));
+    }
 
     private static CsvWriter init() {
         FileWriter writer = getWriter();
@@ -21,14 +29,13 @@ public class CsvReport extends Report {
                 .build();
     }
 
-    public static void saveReport(List<Simulation> stats) {
+    public static void saveReport(SimulationStats stats) {
         List<List<String>> data = new ArrayList<>();
-        List<String> header = SimulationRequest.header();
+        List<String> header = getHeader();
         data.add(header);
 
-        stats.forEach(it -> {
-            //data.add(it.getSimulationStats().getResults());
-            //it.getRequestStats().forEach(requestStat -> data.add(requestStat.getResults()));
+        stats.getResults().forEach(it -> {
+            data.add(List.of(CsvReport.requestStatsToString(it)));
         });
 
         writeData(data);
@@ -52,5 +59,36 @@ public class CsvReport extends Report {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String requestStatsToString(RequestStats requestStats) {
+        return Stream.of(requestStats.getSimulationName(),
+                requestStats.getScenario(),
+                requestStats.getMaxUsers(),
+                requestStats.getRequestName(),
+                requestStats.getStart(),
+                requestStats.getStartDate(),
+                requestStats.getDuration(),
+                requestStats.getEnd(),
+                requestStats.getCount(),
+                requestStats.getSuccessCount(),
+                requestStats.getErrorCount(),
+                requestStats.getMin(),
+                requestStats.getP50(),
+                requestStats.getP90(),
+                requestStats.getP95(),
+                requestStats.getP99(),
+                requestStats.getMax(),
+                requestStats.getAvg(),
+                requestStats.getStddev(),
+                requestStats.getRps()).map(String::valueOf).collect(Collectors.joining(","));
+
+//        return String.format(Locale.ENGLISH,
+//                "%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.2f,%s,%.2f,%.2f,%s",
+//                simulation, scenario, maxUsers, request, start, startDate, duration, end, count, successCount,
+//                errorCount, min, p50, p90, p95, p99, max, avg, stddev, rps);
+//        return String.format(Locale.ENGLISH,
+//                "%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.2f,%s,%.2f",
+//                );
     }
 }
