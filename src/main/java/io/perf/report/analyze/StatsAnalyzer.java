@@ -1,11 +1,10 @@
 package io.perf.report.analyze;
 
 import io.perf.report.context.Simulation;
-import io.perf.report.model.SimulationStats;
 import io.perf.report.model.RequestStats;
 import io.perf.report.model.SimulationRequest;
+import io.perf.report.model.SimulationStats;
 import org.apache.commons.math3.stat.StatUtils;
-import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 
 import java.time.Instant;
 import java.time.ZoneId;

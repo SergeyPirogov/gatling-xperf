@@ -16,8 +16,8 @@ public class CsvReport extends Report {
     private final static CsvWriter csvWriter = init();
 
     public static List<String> getHeader() {
-        return List.of(("simulation,scenario,maxUsers,request,start,startDate,duration,end,count,successCount," +
-                "errorCount,min,p50,p75,p95,p99,max,mean,stddev,rps")
+        return List.of(("simulation,scenario,maxUsers,request,start,startDate,duration,end,total,ok," +
+                "ko,min,p50,p75,p95,p99,max,mean,stddev,rps")
                 .split(","));
     }
 
