@@ -54,8 +54,7 @@ public class StatsAnalyzer {
         long p95 = Math.round(AnalyzerMath.percentile(times, 0.95));
         long p99 = Math.round(AnalyzerMath.percentile(times, 0.99));
 
-        StandardDeviation stdDev = new StandardDeviation();
-        long stddev = (long) stdDev.evaluate(times, avg);
+        long stddev = Math.round(AnalyzerMath.calculateStandardDeviation(times));
         double duration = (request.getEnd() - request.getStart()) / 1000.0;
 
         String startDate = getDateFromInstant(request.getStart());
