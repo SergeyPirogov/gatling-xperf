@@ -62,7 +62,7 @@ public class CsvReport extends Report {
     }
 
     public static String requestStatsToString(RequestStats requestStats) {
-        return String.format("%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.2f,%s,%.2f",
+        return String.format("%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.0f,%s,%.2f",
                 requestStats.getSimulationName(),
                 requestStats.getScenario(),
                 requestStats.getMaxUsers(),
