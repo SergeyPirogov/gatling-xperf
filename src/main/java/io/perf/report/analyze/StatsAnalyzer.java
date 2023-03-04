@@ -36,10 +36,14 @@ public class StatsAnalyzer {
         List<RequestStats> results = analyticsResult.getResults();
         results.sort(Comparator.comparing(RequestStats::getIndice));
 
-        //RequestStats finish = results.get(results.size() - 1);
-        //RequestStats start = results.get(0);
+        RequestStats start = results.get(0);
+        RequestStats finish = results.get(results.size() - 1);
 
-        //long rps = finish.getEnd() - start.getStart();
+        double allRequestsDuration = Math.round(((finish.getEnd() - start.getStart()) / 1000.0));
+        results.forEach(r -> {
+            double rps = r.getCount() / allRequestsDuration;
+            r.setRps(rps);
+        });
 
         return analyticsResult;
     }
@@ -67,7 +71,7 @@ public class StatsAnalyzer {
         long successCount = request.getCount() - request.getErrorCount();
         double rps = successCount / duration;
 
-        RequestStats requestStatistics =  new RequestStats();
+        RequestStats requestStatistics = new RequestStats();
         requestStatistics.setMin(min);
         requestStatistics.setMax(max);
         requestStatistics.setAvg(avg);

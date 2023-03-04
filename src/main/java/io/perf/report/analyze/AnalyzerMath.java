@@ -176,7 +176,6 @@ public class AnalyzerMath {
      * @param a   an integer array
      * @param lo0 left boundary of array partition (inclusive).
      * @param hi0 right boundary of array partition (inclusive).
-     * @deprecated
      */
     private static void quickSortMinToMax(int a[], int lo0, int hi0) {
         int lo = lo0;
@@ -243,7 +242,6 @@ public class AnalyzerMath {
      * @param a   a double array
      * @param lo0 left boundary of array partition (inclusive).
      * @param hi0 right boundary of array partition (inclusive).
-     * @deprecated
      */
     private static void quickSortMinToMax(double a[], int lo0, int hi0) {
         int lo = lo0;

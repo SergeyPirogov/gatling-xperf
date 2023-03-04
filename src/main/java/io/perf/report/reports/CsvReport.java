@@ -17,7 +17,7 @@ public class CsvReport extends Report {
 
     public static List<String> getHeader() {
         return List.of(("simulation,scenario,maxUsers,request,start,startDate,duration,end,total,ok," +
-                "ko,min,p50,p75,p95,p99,max,mean,stddev,rps")
+                "ko,rps,min,p50,p75,p95,p99,max,mean,stddev")
                 .split(","));
     }
 
@@ -62,7 +62,7 @@ public class CsvReport extends Report {
     }
 
     public static String requestStatsToString(RequestStats requestStats) {
-        return String.format("%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.0f,%s,%.2f",
+        return String.format("%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s,%.3f,%s,%s,%s,%s,%s,%s,%.0f,%s",
                 requestStats.getSimulationName(),
                 requestStats.getScenario(),
                 requestStats.getMaxUsers(),
@@ -74,6 +74,7 @@ public class CsvReport extends Report {
                 requestStats.getCount(),
                 requestStats.getSuccessCount(),
                 requestStats.getErrorCount(),
+                requestStats.getRps(),
                 requestStats.getMin(),
                 requestStats.getP50(),
                 requestStats.getP90(),
@@ -81,8 +82,7 @@ public class CsvReport extends Report {
                 requestStats.getP99(),
                 requestStats.getMax(),
                 requestStats.getAvg(),
-                requestStats.getStddev(),
-                requestStats.getRps());
+                requestStats.getStddev());
 
 //        return String.format(Locale.ENGLISH,
 //                "%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.2f,%s,%.2f,%.2f,%s",
