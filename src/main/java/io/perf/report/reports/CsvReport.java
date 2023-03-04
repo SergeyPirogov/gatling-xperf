@@ -62,7 +62,8 @@ public class CsvReport extends Report {
     }
 
     public static String requestStatsToString(RequestStats requestStats) {
-        return Stream.of(requestStats.getSimulationName(),
+        return String.format("%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.2f,%s,%.2f",
+                requestStats.getSimulationName(),
                 requestStats.getScenario(),
                 requestStats.getMaxUsers(),
                 requestStats.getRequestName(),
@@ -81,7 +82,7 @@ public class CsvReport extends Report {
                 requestStats.getMax(),
                 requestStats.getAvg(),
                 requestStats.getStddev(),
-                requestStats.getRps()).map(String::valueOf).collect(Collectors.joining(","));
+                requestStats.getRps());
 
 //        return String.format(Locale.ENGLISH,
 //                "%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.2f,%s,%.2f,%.2f,%s",

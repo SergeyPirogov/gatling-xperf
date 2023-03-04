@@ -69,7 +69,7 @@ public abstract class SimulationParser {
                 }
             }
         }
-        //simulation.computeStat();
+
         return simulation;
     }
 

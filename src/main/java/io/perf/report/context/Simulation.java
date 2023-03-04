@@ -47,7 +47,7 @@ public class Simulation {
 
     public void addRequest(String scenario, String requestName, long start, long end, boolean success) {
         SimulationRequest request = requests.computeIfAbsent(requestName,
-                name -> new SimulationRequest(simulationName, scenario, name, this.start));
+                name -> new SimulationRequest(simulationName, scenario, name, start));
         request.add(start, end, success);
         //simulationRequest.add(start, end, success);
     }
