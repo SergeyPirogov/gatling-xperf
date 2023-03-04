@@ -11,7 +11,6 @@ import picocli.CommandLine;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 @CommandLine.Command(
         name = "analyze", mixinStandardHelpOptions = true,
@@ -21,20 +20,31 @@ public class AnalyzeCommand implements Runnable {
     private final static Logger log = Logger.getLogger(AnalyzeCommand.class);
 
     @CommandLine.Option(names = {"-f", "--files"}, paramLabel = "FILES", description = "the files")
-    private File file;
+    private File simulationFile;
+
+    @CommandLine.Option(names = {"-c", "--challenger"}, paramLabel = "FILES", description = "the files")
+    private File challengerFile;
 
     @CommandLine.Option(names = {"-o", "--output-dir"}, paramLabel = "DIR", description = "output dir")
     private String dirName;
 
     @Override
     public void run() {
-//        files.forEach(it -> {
-            System.out.println(file.getName());
-            Simulation simulation = parseSimulationFile(file);
-            SimulationStats analyticsResult = StatsAnalyzer.computeSimulationStats(simulation);
+        String baseReportPath = analyze(simulationFile);
 
-            generateCsvReport(analyticsResult, file.getName());
-        //});
+        if (challengerFile != null) {
+            String challengerReportPath = analyze(challengerFile);
+        }
+
+        log.info("Report is saved in" + baseReportPath);
+    }
+
+    private String analyze(File file) {
+        System.out.println(file.getName());
+        Simulation simulation = parseSimulationFile(file);
+        SimulationStats analyticsResult = StatsAnalyzer.computeSimulationStats(simulation);
+
+        return generateCsvReport(analyticsResult, file.getName());
     }
 
     protected Simulation parseSimulationFile(File file) {
@@ -53,7 +63,7 @@ public class AnalyzeCommand implements Runnable {
         }
     }
 
-    protected void generateCsvReport(SimulationStats stats, String name) {
-        CsvReport.of(name).saveReport(stats);
+    protected String generateCsvReport(SimulationStats stats, String name) {
+        return CsvReport.of(name).saveReport(stats);
     }
 }

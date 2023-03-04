@@ -14,9 +14,12 @@ import java.util.List;
 
 public class CsvReport extends Report {
     private final CsvWriter csvWriter;
+    private final String filePath;
 
     private CsvReport(String name) {
-        FileWriter writer = getWriter(buildName(name));
+        this.filePath = buildPath(name);
+
+        FileWriter writer = getWriter(filePath);
         this.csvWriter = new CsvWriterBuilder(writer)
                 .quoteChar(CsvWriter.NO_QUOTE_CHARACTER)
                 .separator(',')
@@ -67,7 +70,7 @@ public class CsvReport extends Report {
 //                );
     }
 
-    private String buildName(String fileName) {
+    private String buildPath(String fileName) {
         String name = fileName.replace(".log", "");
         Timestamp ts = Timestamp.from(Instant.now());
         return ts.getTime() + "_" + name + ".csv";
@@ -79,7 +82,7 @@ public class CsvReport extends Report {
                 .split(","));
     }
 
-    public void saveReport(SimulationStats stats) {
+    public String saveReport(SimulationStats stats) {
         List<List<String>> data = new ArrayList<>();
         List<String> header = getHeader();
         data.add(header);
@@ -89,6 +92,7 @@ public class CsvReport extends Report {
         });
 
         writeData(data);
+        return this.filePath;
     }
 
     private void writeData(List<List<String>> data) {
