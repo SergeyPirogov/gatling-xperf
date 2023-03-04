@@ -33,7 +33,14 @@ public class StatsAnalyzer {
             analyticsResult.addResult(requestStatistics);
         });
 
-        analyticsResult.getResults().sort(Comparator.comparing(RequestStats::getIndice));
+        List<RequestStats> results = analyticsResult.getResults();
+        results.sort(Comparator.comparing(RequestStats::getIndice));
+
+        //RequestStats finish = results.get(results.size() - 1);
+        //RequestStats start = results.get(0);
+
+        //long rps = finish.getEnd() - start.getStart();
+
         return analyticsResult;
     }
 
