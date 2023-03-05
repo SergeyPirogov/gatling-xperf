@@ -16,8 +16,6 @@ public class StatsAnalyzer {
 
     public static SimulationStats computeSimulationStats(Simulation simulation) {
         List<SimulationRequest> requests = simulation.getRequests();
-        System.out.println();
-
         SimulationStats analyticsResult = new SimulationStats();
 
         requests.forEach(req -> {
