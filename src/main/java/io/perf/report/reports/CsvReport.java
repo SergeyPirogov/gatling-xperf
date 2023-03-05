@@ -15,7 +15,7 @@ import java.util.List;
 public class CsvReport extends Report {
     private final CsvWriter csvWriter;
     private final String filePath;
-    private boolean isShort;
+    private final boolean isShort;
 
     private CsvReport(String name, boolean isShort) {
         this.filePath = buildPath(name);

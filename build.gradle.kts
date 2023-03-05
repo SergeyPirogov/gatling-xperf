@@ -35,6 +35,9 @@ dependencies {
     implementation("net.quux00.simplecsv:simplecsv:2.0")
     implementation("org.apache.commons:commons-math3:3.6.1")
     implementation("log4j:log4j:1.2.17")
+    implementation("ch.qos.logback:logback-classic:1.4.5")
+
+    implementation("org.javers:javers-core:6.11.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")

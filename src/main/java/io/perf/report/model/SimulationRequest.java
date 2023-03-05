@@ -21,6 +21,7 @@ public class SimulationRequest {
     protected long end;
     protected long count;
     protected long errorCount;
+    private Apdex apdex;
 
     //protected String startDate;
 
@@ -38,6 +39,7 @@ public class SimulationRequest {
         this.start = start;
         durations = new ArrayList<>();
         indice = statCounter.incrementAndGet();
+        this.apdex = new Apdex();
     }
 
 //    public static List<String> header() {
@@ -58,6 +60,7 @@ public class SimulationRequest {
         }
         long duration = end - start;
         durations.add((double) duration);
+        apdex.addMs(duration);
     }
 
 //    public void computeStat(int maxUsers) {
