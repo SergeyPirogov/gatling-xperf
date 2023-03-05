@@ -4,7 +4,6 @@ import io.perf.report.context.Simulation;
 import io.perf.report.model.RequestStats;
 import io.perf.report.model.SimulationRequest;
 import io.perf.report.model.SimulationStats;
-import org.apache.commons.math3.stat.StatUtils;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -48,8 +47,8 @@ public class StatsAnalyzer {
 
     private static RequestStats computeRequestStats(SimulationRequest request, int maxUsers) {
         double[] times = request.getDurationsAsArray();
-        long min = (long) StatUtils.min(times);
-        long max = (long) StatUtils.max(times);
+        long min = (long) AnalyzerMath.getMin(times);
+        long max = (long) AnalyzerMath.getMax(times);
 
         double sum = 0;
         for (double d : times)

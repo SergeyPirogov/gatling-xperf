@@ -1,5 +1,11 @@
 package io.perf.report.analyze;//package com.java2s;
 
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class AnalyzerMath {
 //    public static void main(String[] argv) throws Exception {
 //        double[] v = new double[] {153.0, 251.0, 257.0, 260.0, 267.0, 268.0, 280.0, 310.0, 321.0, 328.0, 337.0, 387.0, 400.0, 405.0, 408.0, 411.0, 424.0, 455.0, 474.0 };
@@ -9,6 +15,18 @@ public class AnalyzerMath {
 //        double res = percentile(v, p);
 //        System.out.println();
 //    }// w  w  w. j  a v  a2s.c  om
+
+    public static double getMin(double[] v) {
+        Double[] dArray = ArrayUtils.toObject(v);
+        List<Double> dList = Arrays.asList(dArray);
+        return Collections.min(dList);
+    }
+
+    public static double getMax(double[] v) {
+        Double[] dArray = ArrayUtils.toObject(v);
+        List<Double> dList = Arrays.asList(dArray);
+        return Collections.max(dList);
+    }
 
     /**
      * Gives the percentile of an array
