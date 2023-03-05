@@ -15,9 +15,11 @@ import java.util.List;
 public class CsvReport extends Report {
     private final CsvWriter csvWriter;
     private final String filePath;
+    private boolean isShort;
 
-    private CsvReport(String name) {
+    private CsvReport(String name, boolean isShort) {
         this.filePath = buildPath(name);
+        this.isShort = isShort;
 
         FileWriter writer = getWriter(filePath);
         this.csvWriter = new CsvWriterBuilder(writer)
@@ -26,8 +28,8 @@ public class CsvReport extends Report {
                 .build();
     }
 
-    public static CsvReport of(String name) {
-        return new CsvReport(name);
+    public static CsvReport of(String name, boolean isShort) {
+        return new CsvReport(name, isShort);
     }
 
     private static FileWriter getWriter(String name) {
@@ -38,7 +40,23 @@ public class CsvReport extends Report {
         }
     }
 
-    public static String requestStatsToString(RequestStats requestStats) {
+    public String requestStatsToString(RequestStats requestStats) {
+        if(isShort) {
+            return String.format("%s,%s,%s,%s,%.3f,%s,%s,%s,%s,%s,%s,%.0f,%s",
+                    requestStats.getSimulationName(),
+                    requestStats.getCount(),
+                    requestStats.getSuccessCount(),
+                    requestStats.getErrorCount(),
+                    requestStats.getRps(),
+                    requestStats.getMin(),
+                    requestStats.getP50(),
+                    requestStats.getP90(),
+                    requestStats.getP95(),
+                    requestStats.getP99(),
+                    requestStats.getMax(),
+                    requestStats.getAvg(),
+                    requestStats.getStddev());
+        }
         return String.format("%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s,%.3f,%s,%s,%s,%s,%s,%s,%.0f,%s",
                 requestStats.getSimulationName(),
                 requestStats.getScenario(),
@@ -60,14 +78,6 @@ public class CsvReport extends Report {
                 requestStats.getMax(),
                 requestStats.getAvg(),
                 requestStats.getStddev());
-
-//        return String.format(Locale.ENGLISH,
-//                "%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.2f,%s,%.2f,%.2f,%s",
-//                simulation, scenario, maxUsers, request, start, startDate, duration, end, count, successCount,
-//                errorCount, min, p50, p90, p95, p99, max, avg, stddev, rps);
-//        return String.format(Locale.ENGLISH,
-//                "%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.2f,%s,%.2f",
-//                );
     }
 
     private String buildPath(String fileName) {
@@ -77,6 +87,10 @@ public class CsvReport extends Report {
     }
 
     public List<String> getHeader() {
+        if (isShort) {
+            return List.of(("simulation,total,ok,ko,rps,min,p50,p75,p95,p99,max,mean,stddev")
+                    .split(","));
+        }
         return List.of(("simulation,scenario,maxUsers,request,start,startDate,duration,end,total,ok," +
                 "ko,rps,min,p50,p75,p95,p99,max,mean,stddev")
                 .split(","));
@@ -88,7 +102,7 @@ public class CsvReport extends Report {
         data.add(header);
 
         stats.getResults().forEach(it -> {
-            data.add(List.of(CsvReport.requestStatsToString(it)));
+            data.add(List.of(requestStatsToString(it)));
         });
 
         writeData(data);

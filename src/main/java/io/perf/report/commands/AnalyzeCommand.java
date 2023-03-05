@@ -25,26 +25,29 @@ public class AnalyzeCommand implements Runnable {
     @CommandLine.Option(names = {"-c", "--challenger"}, paramLabel = "FILES", description = "the files")
     private File challengerFile;
 
-    @CommandLine.Option(names = {"-o", "--output-dir"}, paramLabel = "DIR", description = "output dir")
-    private String dirName;
+    @CommandLine.Option(names = {"-s", "--short"}, paramLabel = "DIR", description = "short output")
+    private boolean isShort;
+
+//    @CommandLine.Option(names = {"-o", "--output-dir"}, paramLabel = "DIR", description = "output dir")
+//    private String dirName;
 
     @Override
     public void run() {
-        String baseReportPath = analyze(simulationFile);
+        String baseReportPath = analyze(simulationFile, isShort);
 
         if (challengerFile != null) {
-            String challengerReportPath = analyze(challengerFile);
+            String challengerReportPath = analyze(challengerFile, isShort);
         }
 
         log.info("Report is saved in" + baseReportPath);
     }
 
-    private String analyze(File file) {
+    private String analyze(File file, boolean isShort) {
         System.out.println(file.getName());
         Simulation simulation = parseSimulationFile(file);
         SimulationStats analyticsResult = StatsAnalyzer.computeSimulationStats(simulation);
 
-        return generateCsvReport(analyticsResult, file.getName());
+        return generateCsvReport(analyticsResult, file.getName(), isShort);
     }
 
     protected Simulation parseSimulationFile(File file) {
@@ -63,7 +66,7 @@ public class AnalyzeCommand implements Runnable {
         }
     }
 
-    protected String generateCsvReport(SimulationStats stats, String name) {
-        return CsvReport.of(name).saveReport(stats);
+    protected String generateCsvReport(SimulationStats stats, String name, boolean isShort) {
+        return CsvReport.of(name, isShort).saveReport(stats);
     }
 }
