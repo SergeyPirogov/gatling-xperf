@@ -2,6 +2,7 @@ package io.perf.report.diff;
 
 import de.vandermeer.asciitable.AT_Context;
 import de.vandermeer.asciitable.AsciiTable;
+import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 import io.perf.report.model.RequestStats;
 import io.perf.report.model.SimulationStats;
 
@@ -39,7 +40,6 @@ public class DiffAnalyzer {
             long p95Diff = calculatePercentDiffPercent(p95Left, p95Right);
             long p99Diff = calculatePercentDiffPercent(p99Left, p99Right);
             long maxDiff = calculatePercentDiffPercent(maxLeft, maxRight);
-
             at.addRow(baseRequestStats.getRequestName(),
                     minLeft + "->" + minRight + " (" + minDiff + "%)",
                     p95Left + "->" + p95Right + " (" + p95Diff + "%)",
