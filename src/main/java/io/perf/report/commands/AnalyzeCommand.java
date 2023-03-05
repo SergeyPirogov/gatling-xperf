@@ -58,7 +58,7 @@ public class AnalyzeCommand implements Runnable {
             SimulationParser parser = ParserFactory.getParser(file);
             Simulation simulation = parser.parse();
             final long endTime = System.currentTimeMillis();
-            log.info("Parsing finished in " + (endTime - startTime) + " ms. File " + file.getAbsolutePath());
+            log.info("Parsing finished in " + (endTime - startTime) + " ms.");
             return simulation;
         } catch (IOException e) {
             log.error("Invalid file: " + file.getAbsolutePath(), e);
