@@ -42,8 +42,9 @@ public class CsvReport extends Report {
 
     public String requestStatsToString(RequestStats requestStats) {
         if(isShort) {
-            return String.format("%s,%s,%s,%s,%.3f,%s,%s,%s,%s,%s,%s,%.0f,%s",
+            return String.format("%s,%s,%s,%s,%s,%.3f,%s,%s,%s,%s,%s,%s,%.0f,%s",
                     requestStats.getSimulationName(),
+                    requestStats.getRequestName(),
                     requestStats.getCount(),
                     requestStats.getSuccessCount(),
                     requestStats.getErrorCount(),
@@ -88,7 +89,7 @@ public class CsvReport extends Report {
 
     public List<String> getHeader() {
         if (isShort) {
-            return List.of(("simulation,total,ok,ko,rps,min,p50,p75,p95,p99,max,mean,stddev")
+            return List.of(("simulation,scenario,total,ok,ko,rps,min,p50,p75,p95,p99,max,mean,stddev")
                     .split(","));
         }
         return List.of(("simulation,scenario,maxUsers,request,start,startDate,duration,end,total,ok," +

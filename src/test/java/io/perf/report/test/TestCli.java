@@ -10,7 +10,7 @@ public class TestCli {
 
     @Test
     public void testCli(){
-        String[] args = { "analyze" , "-f", "challenger.log", "-c", "simulation.log", "--short"};
+        String[] args = { "analyze" , "-f", "examples/simulation.log", "-c", "examples/simulation2.log", "--short"};
 
         final CommandLine cmd = new CommandLine(new MainCommand());
         cmd.parseArgs(args);
