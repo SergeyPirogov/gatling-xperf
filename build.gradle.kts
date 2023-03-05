@@ -12,7 +12,7 @@ description = "Github Actions Java CMD"
 
 graal {
     mainClass("io.perf.report.PerfReportCli")
-    outputName("perf_report")
+    outputName("xperf")
 
     option("-H:EnableURLProtocols=http,https")
     option("-H:+AddAllCharsets")
@@ -48,4 +48,8 @@ tasks {
 
 application {
     mainClass.set("io.perf.report.PerfReportCli")
+}
+
+tasks.jar {
+    archiveFileName.set("xperf.jar")
 }

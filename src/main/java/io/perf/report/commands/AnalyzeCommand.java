@@ -19,10 +19,10 @@ import java.io.IOException;
 public class AnalyzeCommand implements Runnable {
     private final static Logger log = Logger.getLogger(AnalyzeCommand.class);
 
-    @CommandLine.Option(names = {"-f", "--file"}, paramLabel = "FILES", description = "the files", required = true)
+    @CommandLine.Option(names = {"-f", "--file"}, paramLabel = "simulation.log", description = "the files", required = true)
     private File simulationFile;
 
-    @CommandLine.Option(names = {"-c", "--challenger"}, paramLabel = "FILES", description = "the files")
+    @CommandLine.Option(names = {"-c", "--challenger"}, paramLabel = "challenger.log", description = "the files")
     private File challengerFile;
 
     @CommandLine.Option(names = {"-s", "--short"}, paramLabel = "DIR", description = "short output")
