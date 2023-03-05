@@ -4,7 +4,7 @@ import io.perf.report.commands.AnalyzeCommand;
 import picocli.CommandLine;
 
 @CommandLine.Command(
-        name = "perf_report", mixinStandardHelpOptions = true,
+        name = "xperf", mixinStandardHelpOptions = true,
         subcommands = {AnalyzeCommand.class}
 )
 public class MainCommand implements Runnable{

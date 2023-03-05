@@ -1,5 +1,6 @@
 package io.perf.report;
 
+import io.perf.report.commands.AnalyzeCommand;
 import picocli.CommandLine;
 
 public class PerfReportCli {
@@ -11,7 +12,7 @@ public class PerfReportCli {
     }
 
     public static CommandLine cmd(String[] args) {
-        final CommandLine cmd = new CommandLine(new MainCommand());
+        final CommandLine cmd = new CommandLine(new AnalyzeCommand());
         final CommandLine.ParseResult parseResult = cmd.parseArgs(args);
         if (!parseResult.errors().isEmpty()) {
             System.out.println(cmd.getUsageMessage());
