@@ -54,7 +54,7 @@ public class CsvReport extends Report {
                     requestStats.getRps(),
                     requestStats.getMin(),
                     requestStats.getP50(),
-                    requestStats.getP90(),
+                    requestStats.getP75(),
                     requestStats.getP95(),
                     requestStats.getP99(),
                     requestStats.getMax(),
@@ -76,7 +76,7 @@ public class CsvReport extends Report {
                     requestStats.getRps(),
                     requestStats.getMin(),
                     requestStats.getP50(),
-                    requestStats.getP90(),
+                    requestStats.getP75(),
                     requestStats.getP95(),
                     requestStats.getP99(),
                     requestStats.getMax(),
@@ -137,14 +137,12 @@ public class CsvReport extends Report {
         }
     }
 
-    public String saveReport(SimulationStats stats) {
+    public String processReport(SimulationStats stats) {
         List<List<String>> data = new ArrayList<>();
         List<String> header = List.of(String.join(",", getHeader()));
         data.add(header);
 
-        stats.getResults().forEach(it -> {
-            data.add(List.of(requestStatsToString(it)));
-        });
+        stats.getResults().forEach(it -> data.add(List.of(requestStatsToString(it))));
 
         writeData(data);
         return this.filePath;

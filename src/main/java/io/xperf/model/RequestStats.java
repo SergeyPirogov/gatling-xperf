@@ -8,7 +8,7 @@ public class RequestStats {
     private String scenario;
     protected String startDate;
     protected long count, successCount, errorCount;
-    protected long min, max, stddev, p50, p90, p95, p99;
+    protected long min, max, stddev, p50, p75, p95, p99;
     protected double rps, avg;
     protected double duration;
     protected int maxUsers;
@@ -43,8 +43,8 @@ public class RequestStats {
         this.p50 = p50;
     }
 
-    public void setP90(long p90) {
-        this.p90 = p90;
+    public void setP75(long p75) {
+        this.p75 = p75;
     }
 
     public void setP95(long p95) {
@@ -139,8 +139,8 @@ public class RequestStats {
         return p50;
     }
 
-    public long getP90() {
-        return p90;
+    public long getP75() {
+        return p75;
     }
 
     public long getP95() {

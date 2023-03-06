@@ -73,7 +73,7 @@ public class StatsAnalyzer {
         requestStatistics.setMax(max);
         requestStatistics.setAvg(avg);
         requestStatistics.setP50(p50);
-        requestStatistics.setP90(p75);
+        requestStatistics.setP75(p75);
         requestStatistics.setP95(p95);
         requestStatistics.setP99(p99);
         requestStatistics.setStddev(stddev);

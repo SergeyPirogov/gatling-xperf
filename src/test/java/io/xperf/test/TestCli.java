@@ -16,7 +16,7 @@ public class TestCli {
 
     @Test
     public void testCli(){
-        String[] args = { "-f", "D:\\Gatling\\gatling-xperf\\examples\\simulation.log"};
+        String[] args = { "-f", "data/simulation.log"};
 
         PerfReportCli.main(args);
     }

@@ -1,16 +1,15 @@
 package io.xperf.diff;
 
-//import de.vandermeer.asciitable.AsciiTable;
 
 import com.github.freva.asciitable.AsciiTable;
-import com.github.freva.asciitable.Column;
-import com.github.freva.asciitable.HorizontalAlign;
 import io.xperf.model.RequestStats;
 import io.xperf.model.SimulationStats;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static io.xperf.reports.ConsoleReport.column;
 
 public class DiffAnalyzer {
 
@@ -85,7 +84,5 @@ public class DiffAnalyzer {
         System.out.println("=== END ===");
     }
 
-    private static Column column(String name) {
-        return new Column().header(name).dataAlign(HorizontalAlign.LEFT);
-    }
+
 }

@@ -6,6 +6,7 @@ import io.xperf.diff.DiffAnalyzer;
 import io.xperf.model.SimulationStats;
 import io.xperf.parser.ParserFactory;
 import io.xperf.parser.SimulationParser;
+import io.xperf.reports.ConsoleReport;
 import io.xperf.reports.CsvReport;
 import picocli.CommandLine;
 
@@ -33,11 +34,13 @@ public class AnalyzeCommand implements Runnable {
     @Override
     public void run() {
         SimulationStats baseSimulationStats = analyze(simulationFile);
-        generateCsvReport(baseSimulationStats, simulationFile.getName(), outputFolder, isShort);
+        processCsvReport(baseSimulationStats, simulationFile.getName(), outputFolder, isShort);
+        processConsoleReport(baseSimulationStats);
 
         if (challengerFile != null) {
             SimulationStats challengerSimulationStats = analyze(challengerFile);
-            generateCsvReport(challengerSimulationStats, challengerFile.getName(), outputFolder, isShort);
+            processCsvReport(challengerSimulationStats, challengerFile.getName(), outputFolder, isShort);
+            processConsoleReport(challengerSimulationStats);
             DiffAnalyzer.computeDiff(baseSimulationStats, challengerSimulationStats);
         }
     }
@@ -63,8 +66,12 @@ public class AnalyzeCommand implements Runnable {
         }
     }
 
-    protected String generateCsvReport(SimulationStats stats, String name, String outputFolder, boolean isShort) {
-        String reportPath = CsvReport.of(outputFolder, name, isShort).saveReport(stats);
+    private void processConsoleReport(SimulationStats stats) {
+        ConsoleReport.of().processReport(stats);
+    }
+
+    private String processCsvReport(SimulationStats stats, String name, String outputFolder, boolean isShort) {
+        String reportPath = CsvReport.of(outputFolder, name, isShort).processReport(stats);
         System.out.printf("Report is saved in %s\n\n", reportPath);
         return reportPath;
     }
