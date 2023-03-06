@@ -23,3 +23,9 @@ Run with docker:
 ```
 docker run -v ${PWD}/data:/data spirogov/xperf --file="/data/simulation.log"
 ```
+
+Compare two runs:
+
+```
+docker run -v ${PWD}/data:/data spirogov/xperf --file="/data/simulation.log" --challenger="/data/simulation2.log"
+```
