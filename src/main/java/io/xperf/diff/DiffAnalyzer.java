@@ -21,7 +21,7 @@ public class DiffAnalyzer {
         }
         AsciiTable at = new AsciiTable();
         at.addRule();
-        at.addRow("Request", "p95", "p99", "stddev");
+        at.addRow("Request", "Max users", "OK", "KO", "p95", "p99", "stddev");
         at.addRule();
         for (int i = 0; i < baseSimulationStatsResults.size(); i++) {
             RequestStats baseRequestStats = baseSimulationStatsResults.get(i);
@@ -31,6 +31,15 @@ public class DiffAnalyzer {
             }
 
             RequestStats challengerRequestStats = challengerSimulationStatsResults.get(i);
+
+            long countUsersLeft = baseRequestStats.getMaxUsers();
+            long countUsersRight = challengerRequestStats.getMaxUsers();
+
+            long leftSuccessCount = baseRequestStats.getSuccessCount();
+            long rightSuccessCount = challengerRequestStats.getSuccessCount();
+
+            long leftErrorCount = baseRequestStats.getErrorCount();
+            long rightErrorCount = challengerRequestStats.getErrorCount();
 
             long p95Left = baseRequestStats.getP95();
             long p95Right = challengerRequestStats.getP95();
@@ -46,6 +55,9 @@ public class DiffAnalyzer {
             long stddevDiff = calculatePercentDiffPercent(stddevLeft, stddevRight);
 
             at.addRow(baseRequestStats.getRequestName(),
+                    countUsersLeft + "->" + countUsersRight,
+                    leftSuccessCount + "->" + rightSuccessCount,
+                    leftErrorCount + "->" + rightErrorCount,
                     p95Left + "->" + p95Right + " (" + p95Diff + "%)",
                     p99Left + "->" + p99Right + " (" + p99Diff + "%)",
                     stddevLeft + "->" + stddevRight + " (" + stddevDiff + "%)"
