@@ -8,6 +8,8 @@ import com.github.freva.asciitable.HorizontalAlign;
 import io.xperf.model.RequestStats;
 import io.xperf.model.SimulationStats;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DiffAnalyzer {
@@ -24,7 +26,7 @@ public class DiffAnalyzer {
             System.out.println("Diff will be computed for lowest size");
         }
 
-        String[][] data = new String[baseSimulationStatsResults.size()][];
+        List<List<String>> rows = new ArrayList<>();
 
         for (int i = 0; i < baseSimulationStatsResults.size(); i++) {
             RequestStats baseRequestStats = baseSimulationStatsResults.get(i);
@@ -58,11 +60,7 @@ public class DiffAnalyzer {
             long stdDevRight = challengerRequestStats.getStddev();
             Diff stdDiff = Diff.of(stdDevLeft, stdDevRight);
 
-//            long p95Diff = calculatePercentDiffPercent(p95Left, p95Right);
-//            long p99Diff = calculatePercentDiffPercent(p99Left, p99Right);
-//            long stdDevDiff = calculatePercentDiffPercent(stdDevLeft, stdDevRight);
-
-            data[i] = new String[]{
+            rows.add(List.of(
                     baseRequestStats.getRequestName(),
                     usersDiff.toString(),
                     successDiff.toString(),
@@ -70,16 +68,24 @@ public class DiffAnalyzer {
                     p95Diff.toString(true),
                     p99Diff.toString(true),
                     stdDiff.toString(true)
-            };
+            ));
         }
-        String[] headers = {"", "users", "OK", "KO", "p95", "p99", "stddev"};
-        String table = AsciiTable.builder()
-                .header(headers)
-                .data(data)
-                .border(AsciiTable.FANCY_ASCII)
-                .asString();
+
+        String table = AsciiTable.getTable(AsciiTable.FANCY_ASCII, rows, Arrays.asList(
+                column("request").with(data -> data.get(0)),
+                column("users").with(data -> data.get(1)),
+                column("ok").with(data -> data.get(2)),
+                column("ko").with(data -> data.get(3)),
+                column("p95").with(data -> data.get(4)),
+                column("p99").with(data -> data.get(5)),
+                column("stddev").with(data -> data.get(6))
+        ));
 
         System.out.println(table);
         System.out.println("=== END ===");
+    }
+
+    private static Column column(String name) {
+        return new Column().header(name).dataAlign(HorizontalAlign.LEFT);
     }
 }
