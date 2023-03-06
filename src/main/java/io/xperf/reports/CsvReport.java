@@ -5,8 +5,11 @@ import io.xperf.model.SimulationStats;
 import net.quux00.simplecsv.CsvWriter;
 import net.quux00.simplecsv.CsvWriterBuilder;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -17,8 +20,8 @@ public class CsvReport extends Report {
     private final String filePath;
     private final boolean isShort;
 
-    private CsvReport(String name, boolean isShort) {
-        this.filePath = buildPath(name);
+    private CsvReport(String outputFolder, String name, boolean isShort) {
+        this.filePath = buildPath(outputFolder, name);
         this.isShort = isShort;
 
         FileWriter writer = getWriter(filePath);
@@ -28,8 +31,8 @@ public class CsvReport extends Report {
                 .build();
     }
 
-    public static CsvReport of(String name, boolean isShort) {
-        return new CsvReport(name, isShort);
+    public static CsvReport of(String outputFolder, String name, boolean isShort) {
+        return new CsvReport(outputFolder, name, isShort);
     }
 
     private static FileWriter getWriter(String name) {
@@ -82,10 +85,20 @@ public class CsvReport extends Report {
         }
     }
 
-    private String buildPath(String fileName) {
+    private String buildPath(String outputFolder, String fileName) {
         String name = fileName.replace(".log", "");
         Timestamp ts = Timestamp.from(Instant.now());
-        return ts.getTime() + "_" + name + ".csv";
+        createFolderIfNowExists(outputFolder);
+
+        return outputFolder + File.separator + ts.getTime() + "_" + name + ".csv";
+    }
+
+    private void createFolderIfNowExists(String outputFolder) {
+        try {
+            Files.createDirectories(Paths.get(outputFolder));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<String> getHeader() {
@@ -132,8 +145,6 @@ public class CsvReport extends Report {
         stats.getResults().forEach(it -> {
             data.add(List.of(requestStatsToString(it)));
         });
-
-        data.forEach(it -> it.forEach(System.out::println));
 
         writeData(data);
         return this.filePath;

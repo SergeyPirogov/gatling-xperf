@@ -11,11 +11,15 @@ public class DiffAnalyzer {
     public static void computeDiff(SimulationStats baseSimulationStats, SimulationStats challengerSimulationStats) {
         List<RequestStats> baseSimulationStatsResults = baseSimulationStats.getResults();
         List<RequestStats> challengerSimulationStatsResults = challengerSimulationStats.getResults();
-        System.out.println("=== Diff ===");
 
+        if (baseSimulationStatsResults.size() != challengerSimulationStatsResults.size()) {
+            System.out.println("Can not compute diff because simulation results have different size");
+            return;
+        }
+        System.out.println("=== Diff ===");
         AsciiTable at = new AsciiTable();
         at.addRule();
-        at.addRow("Request","p95", "p99", "stddev");
+        at.addRow("Request", "p95", "p99", "stddev");
         at.addRule();
         for (int i = 0; i < baseSimulationStatsResults.size(); i++) {
             RequestStats baseRequestStats = baseSimulationStatsResults.get(i);

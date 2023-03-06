@@ -27,14 +27,17 @@ public class AnalyzeCommand implements Runnable {
     @CommandLine.Option(names = {"-s", "--short"}, paramLabel = "DIR", description = "short output")
     private boolean isShort;
 
+    @CommandLine.Option(names = {"-o", "--output-dir"}, paramLabel = "DIR", description = "output dir")
+    private String outputFolder = ".";
+
     @Override
     public void run() {
         SimulationStats baseSimulationStats = analyze(simulationFile);
-        generateCsvReport(baseSimulationStats, simulationFile.getName(), isShort);
+        generateCsvReport(baseSimulationStats, simulationFile.getName(), outputFolder, isShort);
 
         if (challengerFile != null) {
             SimulationStats challengerSimulationStats = analyze(challengerFile);
-            generateCsvReport(challengerSimulationStats, challengerFile.getName(), isShort);
+            generateCsvReport(challengerSimulationStats, challengerFile.getName(), outputFolder, isShort);
             DiffAnalyzer.computeDiff(baseSimulationStats, challengerSimulationStats);
         }
     }
@@ -60,8 +63,8 @@ public class AnalyzeCommand implements Runnable {
         }
     }
 
-    protected String generateCsvReport(SimulationStats stats, String name, boolean isShort) {
-        String reportPath = CsvReport.of(name, isShort).saveReport(stats);
+    protected String generateCsvReport(SimulationStats stats, String name, String outputFolder, boolean isShort) {
+        String reportPath = CsvReport.of(outputFolder, name, isShort).saveReport(stats);
         System.out.printf("Report is saved in %s\n\n", reportPath);
         return reportPath;
     }

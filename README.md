@@ -17,3 +17,9 @@ Compare results with daff
 ```
 daff --output diff.html 1678000685174_simulation.csv 1678000685192_simulation2.csv
 ```
+
+Run with docker:
+
+```
+docker run -v ${PWD}/data:/data spirogov/xperf --file="/data/simulation.log"
+```
