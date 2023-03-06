@@ -12,17 +12,24 @@ public class DiffAnalyzer {
         List<RequestStats> baseSimulationStatsResults = baseSimulationStats.getResults();
         List<RequestStats> challengerSimulationStatsResults = challengerSimulationStats.getResults();
 
-        if (baseSimulationStatsResults.size() != challengerSimulationStatsResults.size()) {
-            System.out.println("Can not compute diff because simulation results have different size");
-            return;
-        }
         System.out.println("=== Diff ===");
+        if (baseSimulationStatsResults.size() != challengerSimulationStatsResults.size()) {
+            System.err.println("Simulation request results size is different!!!");
+            System.out.printf("Base simulation size is %s, challenger size is %s.\n",
+                    baseSimulationStatsResults.size(), challengerSimulationStatsResults.size());
+            System.out.println("Diff will be computed for lowest size");
+        }
         AsciiTable at = new AsciiTable();
         at.addRule();
         at.addRow("Request", "p95", "p99", "stddev");
         at.addRule();
         for (int i = 0; i < baseSimulationStatsResults.size(); i++) {
             RequestStats baseRequestStats = baseSimulationStatsResults.get(i);
+
+            if (i >= challengerSimulationStatsResults.size()) {
+                break;
+            }
+
             RequestStats challengerRequestStats = challengerSimulationStatsResults.get(i);
 
             long p95Left = baseRequestStats.getP95();
