@@ -28,6 +28,9 @@ public class AnalyzeCommand implements Runnable {
     @CommandLine.Option(names = {"-s", "--short"}, paramLabel = "DIR", description = "short output")
     private boolean isShort;
 
+    @CommandLine.Option(names = {"-v", "--verbose"}, paramLabel = "DIR", description = "short output")
+    private boolean isVerbose;
+
     @CommandLine.Option(names = {"-o", "--output-dir"}, paramLabel = "DIR", description = "output dir")
     private String outputFolder = ".";
 
@@ -35,12 +38,12 @@ public class AnalyzeCommand implements Runnable {
     public void run() {
         SimulationStats baseSimulationStats = analyze(simulationFile);
         processCsvReport(baseSimulationStats, simulationFile.getName(), outputFolder, isShort);
-        processConsoleReport(baseSimulationStats);
+        processConsoleReport(baseSimulationStats, isVerbose, isShort);
 
         if (challengerFile != null) {
             SimulationStats challengerSimulationStats = analyze(challengerFile);
             processCsvReport(challengerSimulationStats, challengerFile.getName(), outputFolder, isShort);
-            processConsoleReport(challengerSimulationStats);
+            processConsoleReport(challengerSimulationStats, isVerbose, isShort);
             DiffAnalyzer.computeDiff(baseSimulationStats, challengerSimulationStats);
         }
     }
@@ -66,8 +69,10 @@ public class AnalyzeCommand implements Runnable {
         }
     }
 
-    private void processConsoleReport(SimulationStats stats) {
-        ConsoleReport.of().processReport(stats);
+    private void processConsoleReport(SimulationStats stats, boolean isVerbose, boolean isShort) {
+        if (isVerbose) {
+            ConsoleReport.of(isShort).processReport(stats);
+        }
     }
 
     private String processCsvReport(SimulationStats stats, String name, String outputFolder, boolean isShort) {
