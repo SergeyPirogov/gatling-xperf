@@ -8,7 +8,6 @@ import java.util.Arrays;
 public class PerfReportCli {
 
     public static void main(String[] args) {
-        System.out.println("Execute xperf with " + Arrays.toString(args));
         CommandLine cmd = cmd(args);
         int exitCode = cmd.execute(args);
         System.exit(exitCode);
@@ -22,5 +21,4 @@ public class PerfReportCli {
         }
         return cmd;
     }
-
 }

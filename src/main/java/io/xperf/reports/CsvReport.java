@@ -126,12 +126,14 @@ public class CsvReport extends Report {
 
     public String saveReport(SimulationStats stats) {
         List<List<String>> data = new ArrayList<>();
-        List<String> header = getHeader();
+        List<String> header = List.of(String.join(",", getHeader()));
         data.add(header);
 
         stats.getResults().forEach(it -> {
             data.add(List.of(requestStatsToString(it)));
         });
+
+        data.forEach(it -> it.forEach(System.out::println));
 
         writeData(data);
         return this.filePath;
