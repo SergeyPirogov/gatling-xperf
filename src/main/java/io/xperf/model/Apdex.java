@@ -61,7 +61,7 @@ public class Apdex {
         }
     }
 
-    protected enum Rating {
+    public enum Rating {
         Unacceptable, Poor, Fair, Good, Excellent
     }
 }

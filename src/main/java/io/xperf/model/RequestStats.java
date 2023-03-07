@@ -14,6 +14,7 @@ public class RequestStats {
     protected int maxUsers;
     private long start;
     private long end;
+    private Apdex apdex;
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
@@ -181,5 +182,13 @@ public class RequestStats {
 
     public long getEnd() {
         return end;
+    }
+
+    public void setApdex(Apdex apdex) {
+        this.apdex = apdex;
+    }
+
+    public Apdex getApdex() {
+        return apdex;
     }
 }

@@ -1,6 +1,7 @@
 package io.xperf.analyze;
 
 import io.xperf.context.Simulation;
+import io.xperf.model.Apdex;
 import io.xperf.model.RequestStats;
 import io.xperf.model.SimulationRequest;
 import io.xperf.model.SimulationStats;
@@ -68,6 +69,8 @@ public class StatsAnalyzer {
         long successCount = request.getCount() - request.getErrorCount();
         double rps = successCount / duration;
 
+        Apdex apdex = request.getApdex();
+
         RequestStats requestStatistics = new RequestStats();
         requestStatistics.setMin(min);
         requestStatistics.setMax(max);
@@ -84,6 +87,7 @@ public class StatsAnalyzer {
         requestStatistics.setSuccessCount(successCount);
         requestStatistics.setCount(request.getCount());
         requestStatistics.setErrorCount(request.getErrorCount());
+        requestStatistics.setApdex(apdex);
 
         return requestStatistics;
     }

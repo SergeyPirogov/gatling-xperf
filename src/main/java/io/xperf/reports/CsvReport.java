@@ -61,7 +61,7 @@ public class CsvReport extends Report {
                     requestStats.getAvg(),
                     requestStats.getStddev());
         } else {
-            return String.format("%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s,%.3f,%s,%s,%s,%s,%s,%s,%.0f,%s",
+            return String.format("%s,%s,%s,%s,%s,%s,%.2f,%s,%s,%s,%s,%.3f,%s,%s,%s,%s,%s,%s,%.0f,%s,%.2f,%s",
                     requestStats.getSimulationName(),
                     requestStats.getScenario(),
                     requestStats.getMaxUsers(),
@@ -81,7 +81,9 @@ public class CsvReport extends Report {
                     requestStats.getP99(),
                     requestStats.getMax(),
                     requestStats.getAvg(),
-                    requestStats.getStddev());
+                    requestStats.getStddev(),
+                    requestStats.getApdex().getScore(),
+                    requestStats.getApdex().getRating());
         }
     }
 
@@ -133,7 +135,7 @@ public class CsvReport extends Report {
                     "ko",
                     "rps",
                     "min",
-                    "p50", "p75", "p95", "p99", "max", "mean", "stddev");
+                    "p50", "p75", "p95", "p99", "max", "mean", "stddev", "score", "rating");
         }
     }
 

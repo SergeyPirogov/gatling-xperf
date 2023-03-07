@@ -245,5 +245,7 @@ public class SimulationRequest {
         return indice;
     }
 
-
+    public Apdex getApdex() {
+        return apdex;
+    }
 }
