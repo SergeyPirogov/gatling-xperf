@@ -16,7 +16,7 @@ public class TestCli {
 
     @Test
     public void testCli(){
-        String[] args = { "-f", "data/simulation.log", "-v"};
+        String[] args = { "-f", "data/simulation.log", "-v", "-s"};
 
         PerfReportCli.main(args);
     }

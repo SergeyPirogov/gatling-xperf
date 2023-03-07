@@ -49,7 +49,9 @@ public class ConsoleReport extends Report {
                     column("p95").with(data -> String.valueOf(data.getP95())),
                     column("p99").with(data -> String.valueOf(data.getP99())),
                     //column("max").with(data -> String.valueOf(data.getMax())),
-                    column("stddev").with(data -> String.valueOf(data.getStddev()))
+                    column("stddev").with(data -> String.valueOf(data.getStddev())),
+                    column("apdex").with(data -> String.format("%.2f", data.getApdex().getScore())),
+                    column("rating").with(data -> data.getApdex().getRating().name())
             ));
         } else {
             table = AsciiTable.getTable(AsciiTable.FANCY_ASCII, stats.getResults(), Arrays.asList(

@@ -9,8 +9,10 @@ import io.xperf.model.SimulationStats;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StatsAnalyzer {
 
@@ -69,7 +71,7 @@ public class StatsAnalyzer {
         long successCount = request.getCount() - request.getErrorCount();
         double rps = successCount / duration;
 
-        Apdex apdex = request.getApdex();
+        Apdex apdex = calculateApdex(times);
 
         RequestStats requestStatistics = new RequestStats();
         requestStatistics.setMin(min);
@@ -90,6 +92,12 @@ public class StatsAnalyzer {
         requestStatistics.setApdex(apdex);
 
         return requestStatistics;
+    }
+
+    private static Apdex calculateApdex(double[] times) {
+        Apdex apdex = new Apdex();
+        Arrays.stream(times).boxed().collect(Collectors.toList()).forEach(time -> apdex.add(time / 1000.0));
+        return apdex;
     }
 
     private static String getDateFromInstant(long start) {

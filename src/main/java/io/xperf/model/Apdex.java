@@ -6,13 +6,13 @@ package io.xperf.model;
  * for more information.
  */
 public class Apdex {
-    protected static final float DEFAULT_THRESOLD = 1.5f;
+    protected static final float DEFAULT_THRESOLD = 1f;
 
     protected final float threshold;
 
     protected int satisfied, tolerating, frustrated;
 
-    protected Apdex() {
+    public Apdex() {
         threshold = DEFAULT_THRESOLD;
     }
 
