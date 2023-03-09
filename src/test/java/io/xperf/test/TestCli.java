@@ -8,16 +8,14 @@ public class TestCli {
 
     @Test
     public void testComparator(){
-        String[] args = { "-f", "data/simulation.log", "-c", "data/simulation2.log"};
-
+        String[] args = {"-f", "data/simulation.log", "-c", "data/simulation2.log"};
         PerfReportCli.main(args);
     }
 
 
     @Test
     public void testCli(){
-        String[] args = { "-f", "data/simulation.log", "-v", "-s"};
-
+        String[] args = {"-f", "data/simulation.log", "-v", "-s"};
         PerfReportCli.main(args);
     }
 }

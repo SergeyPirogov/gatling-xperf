@@ -18,7 +18,9 @@ public class ConsoleReport extends Report {
     }
 
     public static Column column(String name) {
-        return new Column().header(name).dataAlign(HorizontalAlign.LEFT)
+        return new Column()
+                .header(name)
+                .dataAlign(HorizontalAlign.LEFT)
                 .maxWidth(20, OverflowBehaviour.NEWLINE);
     }
 

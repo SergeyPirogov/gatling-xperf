@@ -4,7 +4,6 @@ public class Diff {
 
     private final String left;
     private final String right;
-    private String requestName;
 
     public Diff(String left, String right) {
         this.left = left;
@@ -22,18 +21,6 @@ public class Diff {
     private static long calculatePercentDiffPercent(long left, long right) {
         double res = ((double) (right - left) / right) * 100;
         return Math.round(res);
-    }
-
-    public String getLeft() {
-        return left;
-    }
-
-    public String getRight() {
-        return right;
-    }
-
-    public String getRequestName() {
-        return requestName;
     }
 
     public String toString(boolean includePercent) {

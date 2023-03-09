@@ -2,6 +2,7 @@ package io.xperf.diff;
 
 
 import com.github.freva.asciitable.AsciiTable;
+import io.xperf.model.Apdex;
 import io.xperf.model.RequestStats;
 import io.xperf.model.SimulationStats;
 
@@ -59,6 +60,10 @@ public class DiffAnalyzer {
             long stdDevRight = challengerRequestStats.getStddev();
             Diff stdDiff = Diff.of(stdDevLeft, stdDevRight);
 
+            Apdex.Rating ratingLeft = baseRequestStats.getApdex().getRating();
+            Apdex.Rating ratingRight = challengerRequestStats.getApdex().getRating();
+            Diff ratingDiff = Diff.of(ratingLeft.toString(), ratingRight.toString());
+
             rows.add(List.of(
                     baseRequestStats.getRequestName(),
                     usersDiff.toString(),
@@ -66,7 +71,8 @@ public class DiffAnalyzer {
                     errorsDiff.toString(),
                     p95Diff.toString(true),
                     p99Diff.toString(true),
-                    stdDiff.toString(true)
+                    stdDiff.toString(true),
+                    ratingDiff.toString()
             ));
         }
 
@@ -77,7 +83,8 @@ public class DiffAnalyzer {
                 column("ko").with(data -> data.get(3)),
                 column("p95").with(data -> data.get(4)),
                 column("p99").with(data -> data.get(5)),
-                column("stddev").with(data -> data.get(6))
+                column("stddev").with(data -> data.get(6)),
+                column("rating").with(data -> data.get(7))
         ));
 
         System.out.println(table);
