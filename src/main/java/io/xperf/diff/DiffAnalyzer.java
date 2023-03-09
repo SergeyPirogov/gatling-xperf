@@ -84,7 +84,7 @@ public class DiffAnalyzer {
                 column("p95").with(data -> data.get(4)),
                 column("p99").with(data -> data.get(5)),
                 column("stddev").with(data -> data.get(6)),
-                column("rating").with(data -> data.get(7))
+                column("apdex").with(data -> data.get(7))
         ));
 
         System.out.println(table);
