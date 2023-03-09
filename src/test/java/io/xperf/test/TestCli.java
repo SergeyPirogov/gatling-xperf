@@ -8,7 +8,7 @@ public class TestCli {
 
     @Test
     public void testComparator(){
-        String[] args = {"-f", "data/simulation.log", "-c", "data/simulation2.log"};
+        String[] args = {"-f", "data/simulation.log", "-c", "data/simulation2.log","--fail-if-apdex", "poor"};
         PerfReportCli.main(args);
     }
 

@@ -3,6 +3,7 @@ package io.xperf.commands;
 import io.xperf.analyze.StatsAnalyzer;
 import io.xperf.context.Simulation;
 import io.xperf.diff.DiffAnalyzer;
+import io.xperf.model.RequestStats;
 import io.xperf.model.SimulationStats;
 import io.xperf.parser.ParserFactory;
 import io.xperf.parser.SimulationParser;
@@ -12,6 +13,8 @@ import picocli.CommandLine;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @CommandLine.Command(
         name = "analyze", mixinStandardHelpOptions = true,
@@ -34,6 +37,9 @@ public class AnalyzeCommand implements Runnable {
     @CommandLine.Option(names = {"-o", "--output-dir"}, paramLabel = "DIR", description = "output dir")
     private String outputFolder = ".";
 
+    @CommandLine.Option(names = {"--fail-if-apdex"}, paramLabel = "DIR", description = "output dir")
+    private String assertApdex = "unacceptable";
+
     @Override
     public void run() {
         SimulationStats baseSimulationStats = analyze(simulationFile);
@@ -45,7 +51,10 @@ public class AnalyzeCommand implements Runnable {
             processCsvReport(challengerSimulationStats, challengerFile.getName(), outputFolder, isShort);
             processConsoleReport(challengerSimulationStats, isVerbose, isShort);
             DiffAnalyzer.computeDiff(baseSimulationStats, challengerSimulationStats);
+            assertOnApdex(challengerSimulationStats, assertApdex);
         }
+
+        assertOnApdex(baseSimulationStats, assertApdex);
     }
 
     private SimulationStats analyze(File file) {
@@ -79,5 +88,25 @@ public class AnalyzeCommand implements Runnable {
         String reportPath = CsvReport.of(outputFolder, name, isShort).processReport(stats);
         System.out.printf("Report is saved in %s\n\n", reportPath);
         return reportPath;
+    }
+
+    private void assertOnApdex(SimulationStats baseSimulationStats, String assertApdex) {
+        List<RequestStats> requestStats = baseSimulationStats.getResults()
+                .stream()
+                .filter(it -> it.getApdex()
+                        .getRating()
+                        .name().toLowerCase()
+                        .equals(assertApdex))
+                .collect(Collectors.toList());
+
+        if (requestStats.size() <= 0) {
+            System.exit(0);
+        }
+        System.out.println("=== Apdex " + assertApdex + " rating violations");
+        requestStats.forEach(it -> {
+            System.out.println(it.getRequestName() + " score " + String.format("%.2f", it.getApdex().getScore()));
+        });
+        System.out.println("===");
+        System.exit(1);
     }
 }

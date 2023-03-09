@@ -14,7 +14,7 @@ import static io.xperf.reports.ConsoleReport.column;
 
 public class DiffAnalyzer {
 
-    public static void computeDiff(SimulationStats baseSimulationStats, SimulationStats challengerSimulationStats) {
+    public static List<List<Diff>> computeDiff(SimulationStats baseSimulationStats, SimulationStats challengerSimulationStats) {
         List<RequestStats> baseSimulationStatsResults = baseSimulationStats.getResults();
         List<RequestStats> challengerSimulationStatsResults = challengerSimulationStats.getResults();
 
@@ -26,7 +26,7 @@ public class DiffAnalyzer {
             System.out.println("Diff will be computed for lowest size");
         }
 
-        List<List<String>> rows = new ArrayList<>();
+        List<List<Diff>> diffList = new ArrayList<>();
 
         for (int i = 0; i < baseSimulationStatsResults.size(); i++) {
             RequestStats baseRequestStats = baseSimulationStatsResults.get(i);
@@ -64,30 +64,30 @@ public class DiffAnalyzer {
             Apdex.Rating ratingRight = challengerRequestStats.getApdex().getRating();
             Diff ratingDiff = Diff.of(ratingLeft.toString(), ratingRight.toString());
 
-            rows.add(List.of(
-                    baseRequestStats.getRequestName(),
-                    usersDiff.toString(),
-                    successDiff.toString(),
-                    errorsDiff.toString(),
-                    p95Diff.toString(true),
-                    p99Diff.toString(true),
-                    stdDiff.toString(true),
-                    ratingDiff.toString()
+            diffList.add(List.of(
+                    Diff.of(baseRequestStats.getRequestName(), challengerRequestStats.getRequestName()),
+                    usersDiff,
+                    successDiff,
+                    errorsDiff,
+                    p95Diff,
+                    p99Diff,
+                    stdDiff,
+                    ratingDiff
             ));
         }
 
-        String table = AsciiTable.getTable(AsciiTable.FANCY_ASCII, rows, Arrays.asList(
-                column("request").with(data -> data.get(0)),
-                column("users").with(data -> data.get(1)),
-                column("ok").with(data -> data.get(2)),
-                column("ko").with(data -> data.get(3)),
-                column("p95").with(data -> data.get(4)),
-                column("p99").with(data -> data.get(5)),
-                column("stddev").with(data -> data.get(6)),
-                column("apdex").with(data -> data.get(7))
+        String table = AsciiTable.getTable(AsciiTable.FANCY_ASCII, diffList, Arrays.asList(
+                column("request").with(data -> data.get(0).toString()),
+                column("users").with(data -> data.get(1).toString()),
+                column("ok").with(data -> data.get(2).toString()),
+                column("ko").with(data -> data.get(3).toString()),
+                column("p95").with(data -> data.get(4).toString(true)),
+                column("p99").with(data -> data.get(5).toString(true)),
+                column("stddev").with(data -> data.get(6).toString()),
+                column("apdex").with(data -> data.get(7).toString())
         ));
 
         System.out.println(table);
-        System.out.println("=== END ===");
+        return diffList;
     }
 }

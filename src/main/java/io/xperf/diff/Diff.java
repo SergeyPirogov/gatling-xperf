@@ -10,6 +10,10 @@ public class Diff {
         this.right = right;
     }
 
+    public String getRight() {
+        return right;
+    }
+
     public static Diff of(String left, String right) {
         return new Diff(left, right);
     }
