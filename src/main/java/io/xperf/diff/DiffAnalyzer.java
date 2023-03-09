@@ -90,6 +90,4 @@ public class DiffAnalyzer {
         System.out.println(table);
         System.out.println("=== END ===");
     }
-
-
 }
