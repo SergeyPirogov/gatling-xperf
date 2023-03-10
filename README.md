@@ -29,3 +29,11 @@ Compare two runs:
 ```
 docker run -v ${PWD}/data:/data spirogov/xperf --file="/data/simulation.log" --challenger="/data/simulation2.log"
 ```
+
+Real life example:
+
+```
+docker run -v ${PWD}/build/results/:/data spirogov/xperf \ 
+--file="/data/getsolutionslistsimulation-20230310101321679/simulation.log" \
+--challenger="/data/getsolutionslistsimulation-20230310094801212/simulation.log" -v
+```
